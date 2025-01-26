@@ -31,7 +31,7 @@ class AppTheme {
       isDarkMode = _storage.read<bool>(_localeKey);
     } catch (e) {
       devPrint(
-        'AppTheme: Unable to load locale date. Reset Locale. $e',
+        'AppTheme: Unable to load local date. Reset Local Data. $e',
         color: DevPrintColorEnum.red,
       );
     }
@@ -89,7 +89,7 @@ class AppTheme {
   }) {
     return ThemeData(
       textTheme: AppTextStyles._textTheme(context),
-      colorScheme: Brightness.light == Brightness.light
+      colorScheme: brightness == Brightness.light
           ? AppColors._lightScheme
           : AppColors._darkScheme,
     );

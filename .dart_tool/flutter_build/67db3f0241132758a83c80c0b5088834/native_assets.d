@@ -1,1 +1,0 @@
- /home/shajed99/Documents/Project/My/App/getx_mvc/.dart_tool/flutter_build/67db3f0241132758a83c80c0b5088834/native_assets.yaml: 

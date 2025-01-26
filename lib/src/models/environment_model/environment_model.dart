@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import '../../utils/dev_functions/dev_print.dart';
 
 /// ENV reading model
@@ -5,8 +7,10 @@ import '../../utils/dev_functions/dev_print.dart';
 /// .env file data will be configure according to this class
 class EnvironmentModel {
   /// .env Data is needed
-  EnvironmentModel({required Map<String, dynamic> map}) {
-    _fromMap(map);
+  Future<EnvironmentModel> get init async {
+    await dotenv.load();
+    _fromMap(dotenv.env);
+    return this;
   }
 
   /// API base URL

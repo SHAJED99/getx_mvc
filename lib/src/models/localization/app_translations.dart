@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../../utils/dev_functions/dev_print.dart';
-import 'string_enum.dart';
+
+part 'string_enum.dart';
 
 /// App localization
 class AppTranslations extends Translations {
@@ -22,8 +23,8 @@ class AppTranslations extends Translations {
   Map<String, Map<String, String>> get keys {
     return <String, Map<String, String>>{
       // TODO: Add language
-      'en': _generateTranslations((TextEnum e) => e.en),
-      'bn': _generateTranslations((TextEnum e) => e.bn),
+      'en': _generateTranslations((TextEnum e) => e._en),
+      'bn': _generateTranslations((TextEnum e) => e._bn),
     };
   }
 
@@ -74,7 +75,7 @@ class AppTranslations extends Translations {
       if (result == null) throw Exception('Locale encrypted.');
     } catch (e) {
       devPrint(
-        'AppTranslations: Unable to load locale date. Reset Locale. $e',
+        'AppTranslations: Unable to load local date. Reset Local Data. $e',
         color: DevPrintColorEnum.red,
       );
 

@@ -3,10 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:getx_mvc/src/controllers/data_controllers/app_data_controller.dart';
+import 'package:getx_mvc/src/utils/dev_functions/dev_print.dart';
 
 import 'src/components.dart';
 import 'src/models/environment_model/environment_model.dart';
@@ -22,8 +22,7 @@ void main(List<String> args) async {
   );
 
   //! ---------------------------------------------------- Initializing end data
-  await dotenv.load();
-  EnvironmentModel environmentModel = EnvironmentModel(map: dotenv.env);
+  EnvironmentModel environmentModel = await EnvironmentModel().init;
 
   //! -------------------------------------------------- Initializing local data
   Locale locale = await AppTranslations.loadLocalData;

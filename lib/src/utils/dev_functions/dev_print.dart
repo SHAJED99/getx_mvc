@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 /// Development Print
 void devPrint(
   dynamic message, {
-  DevPrintColorEnum color = DevPrintColorEnum.green,
+  DevPrintColorEnum color = DevPrintColorEnum.reset,
 }) {
   if (!kDebugMode) return;
 
@@ -15,12 +15,18 @@ void devPrint(
     List<String> stringList = message_.split('\n');
 
     for (final String string in stringList) {
-      print('${color.code}[Log] - $string${DevPrintColorEnum.reset.code}');
+      print(
+        '''$____log${color.code}$string${DevPrintColorEnum.reset.code}''',
+      );
     }
   } catch (_) {}
 }
 
-/// Enum representing ANSI escape codes for coloring and formatting console output.
+String get ____log =>
+    '''${DevPrintColorEnum.white.code}[Log] - ${DevPrintColorEnum.reset.code}''';
+
+/// Enum representing ANSI escape codes for coloring and formatting console
+/// output.
 ///
 /// Each value of [DevPrintColorEnum] corresponds to a specific ANSI escape code
 /// that can be used to format text with colors or styles in supported terminals.
@@ -28,13 +34,13 @@ enum DevPrintColorEnum {
   /// Resets all text formatting to default.
   reset('\x1B[0m'),
 
-  /// Sets the text color to red.
+  /// Sets the text color to red. `ERROR`
   red('\x1B[31m'),
 
-  /// Sets the text color to green.
+  /// Sets the text color to green. `SUCCESSFUL`
   green('\x1B[32m'),
 
-  /// Sets the text color to yellow.
+  /// Sets the text color to yellow. `WARNING`
   yellow('\x1B[33m'),
 
   /// Sets the text color to blue.
