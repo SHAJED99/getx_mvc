@@ -2,6 +2,7 @@ part of 'app_theme.dart';
 
 /// App Colors. Auto generated from `https://material-foundation.github.io/material-theme-builder/`
 class AppColors {
+  /// App ColorScheme for Brightness.bright
   static ColorScheme get _lightScheme {
     return const ColorScheme(
       brightness: Brightness.light,

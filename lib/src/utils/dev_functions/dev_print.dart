@@ -15,7 +15,7 @@ void devPrint(
     List<String> stringList = message_.split('\n');
 
     for (final String string in stringList) {
-      print('$color[Log] - $string${DevPrintColorEnum.reset}');
+      print('${color.code}[Log] - $string${DevPrintColorEnum.reset.code}');
     }
   } catch (_) {}
 }

@@ -5,7 +5,9 @@ import 'package:get_storage/get_storage.dart';
 import '../../utils/dev_functions/dev_print.dart';
 import 'string_enum.dart';
 
+/// App localization
 class AppTranslations extends Translations {
+  static bool _isInit = false;
   static const String _localeKey = 'AppTranslations_locale';
   static final GetStorage _storage = GetStorage();
 
@@ -16,6 +18,21 @@ class AppTranslations extends Translations {
     Locale('bn'),
   ];
 
+  @override
+  Map<String, Map<String, String>> get keys {
+    return <String, Map<String, String>>{
+      // TODO: Add language
+      'en': _generateTranslations((TextEnum e) => e.en),
+      'bn': _generateTranslations((TextEnum e) => e.bn),
+    };
+  }
+
+  static Future<void> get ____init async {
+    if (_isInit) return;
+    await GetStorage.init();
+    _isInit = true;
+  }
+
   /// Finds and returns a [Locale] that matches the given [languageCode].
   ///
   /// If the [languageCode] matches any locale in [supportedLocales], it returns
@@ -25,15 +42,6 @@ class AppTranslations extends Translations {
       (Locale locale) => locale.languageCode == languageCode,
       orElse: () => supportedLocales.first,
     );
-  }
-
-  @override
-  Map<String, Map<String, String>> get keys {
-    return <String, Map<String, String>>{
-      // TODO: Add language
-      'en': _generateTranslations((TextEnum e) => e.en),
-      'bn': _generateTranslations((TextEnum e) => e.bn),
-    };
   }
 
   static Map<String, String> _generateTranslations(
@@ -48,7 +56,7 @@ class AppTranslations extends Translations {
 
   /// Load preset locale from local data when the app is starting
   static Future<Locale> get loadLocalData async {
-    await GetStorage.init();
+    await ____init;
     Locale? result;
 
     try {
@@ -56,9 +64,9 @@ class AppTranslations extends Translations {
 
       if (localCode == null) throw Exception('No locale found.');
 
-      for (final Locale local in supportedLocales) {
-        if (local.languageCode == localCode) {
-          result = local;
+      for (final Locale locale in supportedLocales) {
+        if (locale.languageCode == localCode) {
+          result = locale;
           break;
         }
       }
@@ -66,24 +74,32 @@ class AppTranslations extends Translations {
       if (result == null) throw Exception('Locale encrypted.');
     } catch (e) {
       devPrint(
-        '''AppTranslations: Unable to load locale date. Reset Locale. Error: $e''',
+        'AppTranslations: Unable to load locale date. Reset Locale. $e',
+        color: DevPrintColorEnum.red,
       );
 
       result = supportedLocales.first;
-      _setData(result);
+      _saveData(result);
     }
-
+    devPrint(
+      'AppTranslations: Locale set to ${result.languageCode}.',
+      color: DevPrintColorEnum.green,
+    );
     return result;
   }
 
   /// Used to update the locale
   static Future<void> update({required Locale locale}) async {
-    await _setData(locale);
+    await _saveData(locale);
     Get.updateLocale(locale);
   }
 
-  static Future<void> _setData(Locale locale) async {
+  static Future<void> _saveData(Locale locale) async {
+    await ____init;
     await _storage.write(_localeKey, locale.languageCode);
-    devPrint('AppTranslations: Locale set to ${locale.languageCode}.');
+    devPrint(
+      'AppTranslations: Locale saved to ${locale.languageCode}.',
+      color: DevPrintColorEnum.green,
+    );
   }
 }
