@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 import 'package:getx_mvc/src/controllers/data_controllers/app_data_controller.dart';
 import 'package:getx_mvc/src/utils/dev_functions/dev_print.dart';
 
-import 'src/components.dart';
+import 'components.dart';
 import 'src/models/environment_model/environment_model.dart';
 import 'src/models/localization/app_translations.dart';
 import 'src/models/theme/app_theme.dart';
