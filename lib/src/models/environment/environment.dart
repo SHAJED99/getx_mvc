@@ -5,7 +5,7 @@ import '../../utils/dev_functions/dev_print.dart';
 /// ENV reading model
 ///
 /// .env file data will be configure according to this class
-class EnvironmentModel {
+class Environment {
   /// .env Data is needed
   static Future<void> get init async {
     await dotenv.load();

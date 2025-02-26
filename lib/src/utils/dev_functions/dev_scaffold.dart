@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:on_process_button_widget/on_process_button_widget.dart';
@@ -52,10 +54,10 @@ class DevScaffold extends StatefulWidget {
 class _DevScaffoldState extends State<DevScaffold> {
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
-  Widget _onPress(String text, Function onTap) {
+  Widget _onPress(String text, Function() onTap) {
     return OnProcessButtonWidget(
       margin: const EdgeInsets.symmetric(vertical: _defaultPadding / 4),
-      onDone: (bool? isSuccess) => onTap,
+      onDone: (bool? isSuccess) => onTap(),
       child: Text(text),
     );
   }
@@ -70,13 +72,16 @@ class _DevScaffoldState extends State<DevScaffold> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            if (kIsWeb)
+            if (kIsWeb || Platform.isWindows || Platform.isLinux)
               DevButton(
                 onTap: () async {
                   _key.currentState?.openEndDrawer();
                   return;
                 },
-                child: const Text('EndDrawer'),
+                child: Icon(
+                  Icons.developer_mode,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
               ),
             if (widget.floatingActionButton != null)
               widget.floatingActionButton!,
@@ -92,14 +97,14 @@ class _DevScaffoldState extends State<DevScaffold> {
               //! ------------------------------------------------------- Locale
               for (final Locale locale in AppTranslations.supportedLocales)
                 _onPress(
-                  'Change Language ${locale.languageCode}',
-                  () async => await AppTranslations.update(locale: locale),
+                  'Language - ${locale.languageCode}',
+                  () => AppTranslations.update(locale: locale),
                 ),
 
               //! -------------------------------------------------------- Theme
               for (final ThemeMode themeMode in ThemeMode.values)
                 _onPress(
-                  'Change Theme - $themeMode',
+                  'Theme - $themeMode',
                   () => AppTheme.update(themeMode: themeMode),
                 ),
 

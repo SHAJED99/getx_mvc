@@ -40,12 +40,12 @@ class AppTheme {
       );
     }
 
-    __message(ThemeMode.system);
-
     if (themeMode == null) {
       themeMode = ThemeMode.system;
       _saveData(themeMode, isInit: true);
     }
+
+    __message(themeMode);
 
     return themeMode;
   }

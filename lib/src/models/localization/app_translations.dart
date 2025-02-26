@@ -75,12 +75,12 @@ class AppTranslations extends Translations {
       );
     }
 
-    __message(supportedLocales.first);
-
     if (result == null) {
       result = supportedLocales.first;
       _saveData(result, isInit: true);
     }
+
+    __message(result);
 
     return result;
   }

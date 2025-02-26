@@ -6,10 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:getx_mvc/src/controllers/data_controllers/auth_controller.dart';
+import 'package:getx_mvc/src/views/screens/splash_screen.dart';
 
 import 'components.dart';
 import 'src/controllers/data_controllers/app_data_controller.dart';
-import 'src/models/environment_model/environment_model.dart';
+import 'src/models/environment/environment.dart';
 import 'src/models/localization/app_translations.dart';
 import 'src/models/theme/app_theme.dart';
 
@@ -21,18 +22,12 @@ void main(List<String> args) async {
     <DeviceOrientation>[DeviceOrientation.portraitUp],
   );
 
-  //! -------------------------------------------- Initializing Environment data
-  await EnvironmentModel.init;
+  //! -------------------------------------------- Loading pre-initializing data
+  await Environment.init; // Initialize environment
+  Locale locale = await AppTranslations.init; // Initialize translations
+  ThemeMode themeMode = await AppTheme.init; // Initialize theme
 
-  //! -------------------------------------------------- Initializing local data
-  Locale locale = await AppTranslations.init;
-  ThemeMode themeMode = await AppTheme.init;
-
-  Widget app = _MyApp(
-    locale: locale,
-    themeMode: themeMode,
-  );
-
+  Widget app = _MyApp(locale: locale, themeMode: themeMode);
   runApp(DevicePreview(enabled: !kReleaseMode, builder: (_) => app));
 }
 
@@ -77,14 +72,12 @@ class _MyApp extends StatelessWidget {
           );
         },
       ),
-      child: const Scaffold(),
+      child: const SplashScreen(),
     );
   }
 }
 
-/// App Initialize binding
 class _InitializedBinding extends Bindings {
-  /// App Initialize binding
   _InitializedBinding();
 
   @override

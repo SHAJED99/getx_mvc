@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+//! ---------------------------------------------------------------- App Details
+/// App name
+const String appName = 'GetX MVC Template';
+
+/// App description
+const String appDescription =
+    '''GetX MVC Template to start a new project with GetX''';
+
 //! ------------------------------------------------------------------ Dimension
 /// Designed screen size
 const Size defaultBaseScreenSize = Size(360, 690);
@@ -19,7 +27,7 @@ const double defaultMaxBoxWidth = 400;
 /// Border width 1.sp
 double get defaultBorderWidth1 => 1.sp;
 
-/// Border width 1.sp
+/// Border width 2.sp
 double get defaultBorderWidth2 => 2.sp;
 
 //! ------------------------------------------------------- Animation & Duration
@@ -27,7 +35,7 @@ double get defaultBorderWidth2 => 2.sp;
 const Curve defaultCurve = Curves.easeInOut;
 
 /// Splash screen waiting time
-const Duration defaultSplashScreenShow = Duration(seconds: 3);
+const Duration defaultSplashScreenShowDuration = Duration(seconds: 3);
 
 /// Animation duration
 const Duration defaultDuration = Duration(milliseconds: 500);
