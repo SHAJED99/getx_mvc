@@ -1,67 +1,76 @@
 // ignore_for_file: avoid_print
 
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// Development Print
+/// Development Print. It will only print in debug mode.
+/// With color and style.
 void devPrint(
   dynamic message, {
-  DevPrintColorEnum color = DevPrintColorEnum.reset,
+  DevPrintColorEnum? color,
+  bool isBold = false,
+  bool isUnderline = false,
 }) {
   if (!kDebugMode) return;
+
+  String reset = '\x1B[0m';
+  String bold = isBold ? '\x1B[1m' : '';
+  String underline = isUnderline ? '\x1B[4m' : '';
+
+  String log = '${DevPrintColorEnum.white.code}[Log] - $reset';
 
   try {
     String message_ = message.toString().trim();
     List<String> stringList = message_.split('\n');
 
-    for (final String string in stringList) {
-      print(
-        '''$____log${color.code}$string${DevPrintColorEnum.reset.code}''',
-      );
-    }
-  } catch (_) {}
-}
+    int count = 80;
+    try {
+      count = stdout.terminalColumns;
+    } catch (_) {}
+    String coloredString = '$log$bold$underline${color?.code ?? ''}';
 
-String get ____log =>
-    '''${DevPrintColorEnum.white.code}[Log] - ${DevPrintColorEnum.reset.code}''';
+    String lingDash = '-' * count;
+    if (stringList.length > 1) print('$coloredString$lingDash');
+
+    for (final String string in stringList) {
+      print('$coloredString$string$reset');
+    }
+
+    if (stringList.length > 1) print('$coloredString$lingDash');
+  } catch (e) {
+    print('$log${DevPrintColorEnum.red.code}${e.toString()}$reset');
+  }
+}
 
 /// Enum representing ANSI escape codes for coloring and formatting console
 /// output.
 ///
 /// Each value of [DevPrintColorEnum] corresponds to a specific ANSI escape code
-/// that can be used to format text with colors or styles in supported terminals.
+/// that can be used to format text with colors in supported terminals.
 enum DevPrintColorEnum {
-  /// Resets all text formatting to default.
-  reset('\x1B[0m'),
-
-  /// Sets the text color to red. `ERROR`
+  /// 🔴 Sets the text color to red. `ERROR`
   red('\x1B[31m'),
 
-  /// Sets the text color to green. `SUCCESSFUL`
+  /// 🟢 Sets the text color to green. `SUCCESSFUL`
   green('\x1B[32m'),
 
-  /// Sets the text color to yellow. `WARNING`
+  /// 🟡 Sets the text color to yellow. `WARNING`
   yellow('\x1B[33m'),
 
-  /// Sets the text color to blue.
+  /// 🔵 Sets the text color to blue.
   blue('\x1B[34m'),
 
-  /// Sets the text color to magenta.
+  /// 🟣 Sets the text color to magenta.
   magenta('\x1B[35m'),
 
-  /// Sets the text color to cyan.
-  cyan('\x1B[36m'),
+  /// ⚫ Sets the text color to black.
+  black('\x1B[30m'),
 
-  /// Sets the text color to white.
+  /// ⚪ Sets the text color to white.
   white('\x1B[37m'),
-
-  // --- Additional Formatting ---
-
-  /// Makes the text bold.
-  bold('\x1B[1m'),
-
-  /// Underlines the text.
-  underline('\x1B[4m');
+  ;
 
   /// Constructor to associate an ANSI escape code with the enum value.
   ///

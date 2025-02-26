@@ -23,12 +23,16 @@ class AppTheme {
   }
 
   /// Load preset brightness from local data when the app is starting
-  static Future<ThemeMode> get loadLocalData async {
+  static Future<ThemeMode> get init async {
     await ____init;
-    bool? isDarkMode;
+    ThemeMode? themeMode;
 
     try {
-      isDarkMode = _storage.read<bool>(_localeKey);
+      String? themeModeString = _storage.read<String>(_localeKey);
+      if (themeModeString == null) throw Exception('No theme mode found.');
+
+      themeMode = _getThemeMode(themeModeString);
+      if (themeMode == null) throw Exception('Theme mode encrypted.');
     } catch (e) {
       devPrint(
         'AppTheme: Unable to load local date. Reset Local Data. $e',
@@ -36,29 +40,49 @@ class AppTheme {
       );
     }
 
-    await update(isDarkMode: isDarkMode);
-    return _getThemeMode(isDarkMode);
+    __message(ThemeMode.system);
+
+    if (themeMode == null) {
+      themeMode = ThemeMode.system;
+      _saveData(themeMode, isInit: true);
+    }
+
+    return themeMode;
+  }
+
+  static void __message(ThemeMode value) {
+    devPrint(
+      'AppTheme: ThemeMode is set to ${value.toString()}',
+      color: DevPrintColorEnum.black,
+    );
   }
 
   /// Used to update the locale
-  static Future<void> update({bool? isDarkMode}) async {
-    await _saveData(isDarkMode);
-    Get.changeThemeMode(_getThemeMode(isDarkMode));
+  static Future<void> update({required ThemeMode themeMode}) async {
+    await _saveData(themeMode);
+    Get.changeThemeMode(themeMode);
   }
 
-  static ThemeMode _getThemeMode(bool? isDarkMode) {
-    if (isDarkMode == null) return ThemeMode.system;
-
-    return isDarkMode ? ThemeMode.light : ThemeMode.dark;
-  }
-
-  static Future<void> _saveData(bool? isDarkMode) async {
+  static Future<void> _saveData(
+    ThemeMode themeMode, {
+    bool isInit = false,
+  }) async {
     await ____init;
-    await _storage.write(_localeKey, isDarkMode);
+    await _storage.write(_localeKey, themeMode.toString());
     devPrint(
-      '''AppTheme: Theme brightness saved to ${isDarkMode == null ? 'System' : isDarkMode ? Brightness.light : Brightness.dark}.''',
-      color: DevPrintColorEnum.green,
+      '''AppTheme: Theme brightness saved to ${themeMode.toString()}.''',
+      color: isInit ? DevPrintColorEnum.black : DevPrintColorEnum.green,
     );
+  }
+
+  static ThemeMode? _getThemeMode(String value) {
+    if (value.isEmpty) return null;
+
+    for (final ThemeMode mode in ThemeMode.values) {
+      if (mode.toString() == value) return mode;
+    }
+
+    return null;
   }
 
   /// Set safe area color

@@ -56,7 +56,7 @@ class AppTranslations extends Translations {
   }
 
   /// Load preset locale from local data when the app is starting
-  static Future<Locale> get loadLocalData async {
+  static Future<Locale> get init async {
     await ____init;
     Locale? result;
 
@@ -65,12 +65,7 @@ class AppTranslations extends Translations {
 
       if (localCode == null) throw Exception('No locale found.');
 
-      for (final Locale locale in supportedLocales) {
-        if (locale.languageCode == localCode) {
-          result = locale;
-          break;
-        }
-      }
+      result = __getLocale(localCode);
 
       if (result == null) throw Exception('Locale encrypted.');
     } catch (e) {
@@ -78,15 +73,23 @@ class AppTranslations extends Translations {
         'AppTranslations: Unable to load local date. Reset Local Data. $e',
         color: DevPrintColorEnum.red,
       );
-
-      result = supportedLocales.first;
-      _saveData(result);
     }
-    devPrint(
-      'AppTranslations: Locale set to ${result.languageCode}.',
-      color: DevPrintColorEnum.green,
-    );
+
+    __message(supportedLocales.first);
+
+    if (result == null) {
+      result = supportedLocales.first;
+      _saveData(result, isInit: true);
+    }
+
     return result;
+  }
+
+  static void __message(Locale value) {
+    devPrint(
+      'AppTranslations: Locale is set to ${value.toString()}',
+      color: DevPrintColorEnum.black,
+    );
   }
 
   /// Used to update the locale
@@ -95,12 +98,25 @@ class AppTranslations extends Translations {
     Get.updateLocale(locale);
   }
 
-  static Future<void> _saveData(Locale locale) async {
+  static Future<void> _saveData(
+    Locale locale, {
+    bool isInit = false,
+  }) async {
     await ____init;
     await _storage.write(_localeKey, locale.languageCode);
     devPrint(
       'AppTranslations: Locale saved to ${locale.languageCode}.',
-      color: DevPrintColorEnum.green,
+      color: isInit ? DevPrintColorEnum.black : DevPrintColorEnum.green,
     );
+  }
+
+  static Locale? __getLocale(String value) {
+    if (value.isEmpty) return null;
+
+    for (final Locale locale in supportedLocales) {
+      if (locale.languageCode == value) return locale;
+    }
+
+    return null;
   }
 }
