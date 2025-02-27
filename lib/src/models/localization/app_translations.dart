@@ -71,7 +71,7 @@ class AppTranslations extends Translations {
     } catch (e) {
       devPrint(
         'AppTranslations: Unable to load local date. Reset Local Data. $e',
-        color: DevPrintColorEnum.red,
+        color: DevPrintColorEnum.yellow,
       );
     }
 

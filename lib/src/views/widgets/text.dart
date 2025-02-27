@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 //! -------------------------------------------------------------------- Heading
+/// CustomTextHeading is a custom text widget that uses the headline style.
+/// It has three constructors, CustomTextHeading, CustomTextHeading.L, and
+/// CustomTextHeading.S
 class CustomTextHeading extends StatelessWidget {
+  /// Text with text style headlineMedium
   const CustomTextHeading({
     super.key,
     this.onPrimary = false,
@@ -11,6 +15,8 @@ class CustomTextHeading extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = null;
+
+  /// Text with text style headlineLarge
   const CustomTextHeading.L({
     super.key,
     this.onPrimary = false,
@@ -20,6 +26,8 @@ class CustomTextHeading extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = true;
+
+  /// Text with text style headlineSmall
   const CustomTextHeading.S({
     super.key,
     this.onPrimary = false,
@@ -30,12 +38,24 @@ class CustomTextHeading extends StatelessWidget {
     this.maxLine,
   }) : _isBig = false;
 
+  /// Whether the text color is onPrimary or onSurface
   final bool onPrimary;
+
+  /// The text to display
   final String text;
+
+  /// The alignment of the text
   final TextAlign textAlign;
+
+  /// The color of the text. If not null it will override the onPrimary/onSurface.
   final Color? color;
+
   final bool? _isBig;
+
+  /// Whether the text is bold or not
   final bool isBold;
+
+  /// The maximum number of lines to display
   final int? maxLine;
 
   @override
@@ -65,7 +85,11 @@ class CustomTextHeading extends StatelessWidget {
 }
 
 //! ---------------------------------------------------------------------- Title
+/// CustomTextTitle is a custom text widget that uses the title style.
+/// It has three constructors, CustomTextTitle, CustomTextTitle.L, and
+/// CustomTextTitle.S
 class CustomTextTitle extends StatelessWidget {
+  /// Text with text style titleMedium
   const CustomTextTitle({
     super.key,
     this.onPrimary = false,
@@ -75,6 +99,8 @@ class CustomTextTitle extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = null;
+
+  /// Text with text style titleLarge
   const CustomTextTitle.L({
     super.key,
     this.onPrimary = false,
@@ -84,6 +110,8 @@ class CustomTextTitle extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = true;
+
+  /// Text with text style titleSmall
   const CustomTextTitle.S({
     super.key,
     this.onPrimary = false,
@@ -94,12 +122,24 @@ class CustomTextTitle extends StatelessWidget {
     this.maxLine,
   }) : _isBig = false;
 
+  /// Whether the text color is onPrimary or onSurface
   final bool onPrimary;
+
+  /// The text to display
   final String text;
+
+  /// The alignment of the text
   final TextAlign textAlign;
+
+  /// The color of the text. If not null it will override the onPrimary/onSurface.
   final Color? color;
+
   final bool? _isBig;
+
+  /// Whether the text is bold or not
   final bool isBold;
+
+  /// The maximum number of lines to display
   final int? maxLine;
 
   @override
@@ -129,7 +169,11 @@ class CustomTextTitle extends StatelessWidget {
 }
 
 //! ----------------------------------------------------------------------- Body
+/// CustomTextBody is a custom text widget that uses the body style.
+/// It has three constructors, CustomTextBody, CustomTextBody.L, and
+/// CustomTextBody.S
 class CustomTextBody extends StatelessWidget {
+  /// Text with text style bodyMedium
   const CustomTextBody({
     super.key,
     this.onPrimary = false,
@@ -139,6 +183,8 @@ class CustomTextBody extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = null;
+
+  /// Text with text style bodyLarge
   const CustomTextBody.L({
     super.key,
     this.onPrimary = false,
@@ -148,6 +194,8 @@ class CustomTextBody extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = true;
+
+  /// Text with text style bodySmall
   const CustomTextBody.S({
     super.key,
     this.onPrimary = false,
@@ -158,12 +206,24 @@ class CustomTextBody extends StatelessWidget {
     this.maxLine,
   }) : _isBig = false;
 
+  /// Whether the text color is onPrimary or onSurface
   final bool onPrimary;
+
+  /// The text to display
   final String text;
+
+  /// The alignment of the text
   final TextAlign textAlign;
+
+  /// The color of the text. If not null it will override the onPrimary/onSurface.
   final Color? color;
+
   final bool? _isBig;
+
+  /// Whether the text is bold or not
   final bool isBold;
+
+  /// The maximum number of lines to display
   final int? maxLine;
 
   @override
@@ -193,7 +253,11 @@ class CustomTextBody extends StatelessWidget {
 }
 
 //! ---------------------------------------------------------------------- Label
+/// CustomTextLabel is a custom text widget that uses the label style.
+/// It has three constructors, CustomTextLabel, CustomTextLabel.L, and
+/// CustomTextLabel.S
 class CustomTextLabel extends StatelessWidget {
+  /// Text with text style labelMedium
   const CustomTextLabel({
     super.key,
     this.onPrimary = false,
@@ -203,6 +267,8 @@ class CustomTextLabel extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = null;
+
+  /// Text with text style labelLarge
   const CustomTextLabel.L({
     super.key,
     this.onPrimary = false,
@@ -212,6 +278,8 @@ class CustomTextLabel extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = true;
+
+  /// Text with text style labelSmall
   const CustomTextLabel.S({
     super.key,
     this.onPrimary = false,
@@ -222,12 +290,24 @@ class CustomTextLabel extends StatelessWidget {
     this.maxLine,
   }) : _isBig = false;
 
+  /// Whether the text color is onPrimary or onSurface
   final bool onPrimary;
+
+  /// The text to display
   final String text;
+
+  /// The alignment of the text
   final TextAlign textAlign;
+
+  /// The color of the text. If not null it will override the onPrimary/onSurface.
   final Color? color;
+
   final bool? _isBig;
+
+  /// Whether the text is bold or not
   final bool isBold;
+
+  /// The maximum number of lines to display
   final int? maxLine;
 
   @override
@@ -257,7 +337,11 @@ class CustomTextLabel extends StatelessWidget {
 }
 
 //! -------------------------------------------------------------------- Display
+/// CustomTextDisplay is a custom text widget that uses the display style.
+/// It has three constructors, CustomTextDisplay, CustomTextDisplay.L, and
+/// CustomTextDisplay.S
 class CustomTextDisplay extends StatelessWidget {
+  /// Text with text style displayMedium
   const CustomTextDisplay({
     super.key,
     this.onPrimary = false,
@@ -267,6 +351,8 @@ class CustomTextDisplay extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = null;
+
+  /// Text with text style displayLarge
   const CustomTextDisplay.L({
     super.key,
     this.onPrimary = false,
@@ -276,6 +362,8 @@ class CustomTextDisplay extends StatelessWidget {
     this.isBold = false,
     this.maxLine,
   }) : _isBig = true;
+
+  /// Text with text style displaySmall
   const CustomTextDisplay.S({
     super.key,
     this.onPrimary = false,
@@ -286,12 +374,24 @@ class CustomTextDisplay extends StatelessWidget {
     this.maxLine,
   }) : _isBig = false;
 
+  /// Whether the text color is onPrimary or onSurface
   final bool onPrimary;
+
+  /// The text to display
   final String text;
+
+  /// The alignment of the text
   final TextAlign textAlign;
+
+  /// The color of the text. If not null it will override the onPrimary/onSurface.
   final Color? color;
+
   final bool? _isBig;
+
+  /// Whether the text is bold or not
   final bool isBold;
+
+  /// The maximum number of lines to display
   final int? maxLine;
 
   @override

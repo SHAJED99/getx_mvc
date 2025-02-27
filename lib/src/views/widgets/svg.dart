@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+/// Custom SVG widget
 class CustomSVG extends StatelessWidget {
-  const CustomSVG(this.svgLink,
-      {super.key, this.color, this.onPrimary = false});
+  /// Custom SVG widget
+  const CustomSVG(
+    this.svgLink, {
+    super.key,
+    this.color,
+    this.onPrimary = false,
+  });
+
+  /// SVG asset link
   final String svgLink;
+
+  /// Color of the SVG
   final Color? color;
+
+  /// If the color is on primary
   final bool onPrimary;
 
   @override
@@ -14,7 +26,9 @@ class CustomSVG extends StatelessWidget {
     return SvgPicture.asset(
       svgLink,
       colorFilter: ColorFilter.mode(
-          color ?? (onPrimary ? c.onPrimary : c.onSurface), BlendMode.srcIn),
+        color ?? (onPrimary ? c.onPrimary : c.onSurface),
+        BlendMode.srcIn,
+      ),
     );
   }
 }

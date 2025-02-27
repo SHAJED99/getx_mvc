@@ -2,11 +2,23 @@ import 'package:flutter/material.dart';
 
 import '../../../components.dart';
 
+/// Custom Circular Progress Bar
 class CustomCircularProgressBar extends StatelessWidget {
-  const CustomCircularProgressBar(
-      {super.key, this.color, this.size, this.value});
+  /// Custom Circular Progress Bar
+  const CustomCircularProgressBar({
+    super.key,
+    this.color,
+    this.size,
+    this.value,
+  });
+
+  /// Custom Circular Progress Bar Color
   final Color? color;
+
+  /// Custom Circular Progress Bar Size
   final double? size;
+
+  /// Custom Circular Progress Bar Value
   final double? value;
 
   @override
@@ -25,20 +37,37 @@ class CustomCircularProgressBar extends StatelessWidget {
   }
 }
 
-// LinearProgressIndicator
-
+/// Custom Linear Progress Bar
 class CustomLinearProgressBar extends StatelessWidget {
-  const CustomLinearProgressBar(
-      {super.key, this.color, this.size, this.show = true, this.value})
-      : _opacity = 10;
-  final Color? color;
-  final double? size;
-  final bool show;
-  final double? value;
+  /// Custom Linear Progress Bar
+  const CustomLinearProgressBar({
+    super.key,
+    this.color,
+    this.size,
+    this.show = true,
+    this.value,
+  }) : _opacity = 10;
 
-  const CustomLinearProgressBar.small(
-      {super.key, this.color, this.size = 2, this.show = true, this.value})
-      : _opacity = 1;
+  /// Custom Linear Progress Bar Small
+  const CustomLinearProgressBar.small({
+    super.key,
+    this.color,
+    this.size = 2,
+    this.show = true,
+    this.value,
+  }) : _opacity = 1;
+
+  /// Custom Linear Progress Bar Color
+  final Color? color;
+
+  /// Custom Linear Progress Bar Size
+  final double? size;
+
+  /// Custom Linear Progress Bar Show
+  final bool show;
+
+  /// Custom Linear Progress Bar Value
+  final double? value;
 
   final int _opacity;
 

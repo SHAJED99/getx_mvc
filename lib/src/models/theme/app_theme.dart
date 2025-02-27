@@ -36,7 +36,7 @@ class AppTheme {
     } catch (e) {
       devPrint(
         'AppTheme: Unable to load local date. Reset Local Data. $e',
-        color: DevPrintColorEnum.red,
+        color: DevPrintColorEnum.yellow,
       );
     }
 
