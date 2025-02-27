@@ -66,6 +66,7 @@ class _AppDetails extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          // Logo
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: theme.buttonTheme.height * 4),
             child: AspectRatio(
@@ -77,17 +78,27 @@ class _AppDetails extends StatelessWidget {
             ),
           ),
           SizedBox(height: defaultPadding / 2),
+
+          // Heading
           CustomTextHeading.S(
             text: appName,
             textAlign: textAlign,
             isBold: true,
             color: color,
           ),
-          CustomTextBody(
-            text: appDescription,
-            textAlign: textAlign,
-            isBold: true,
-            color: color,
+          SizedBox(height: defaultPadding / 4),
+
+          // Subheading
+          ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: defaultMaxBoxWidth,
+            ),
+            child: CustomTextBody(
+              text: appDescription,
+              textAlign: textAlign,
+              isBold: true,
+              color: color,
+            ),
           ),
         ],
       ),

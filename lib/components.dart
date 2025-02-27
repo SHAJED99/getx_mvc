@@ -7,7 +7,7 @@ const String appName = 'GetX MVC Template';
 
 /// App description
 const String appDescription =
-    '''GetX MVC Template to start a new project with GetX''';
+    '''Use the GetX MVC Template to start a new project with GetX. To read more about this template, go to the Readme.md file.''';
 
 //! ------------------------------------------------------------------ Dimension
 /// Designed screen size
