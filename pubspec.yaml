@@ -15,14 +15,15 @@ dependencies:
 
   #! ---------------------------------------------------------------- Customized
   flutter_dotenv: ^5.2.1
-  get: ^4.6.6
+  get: ^4.7.2
   flutter_screenutil: ^5.9.3
   google_fonts: ^6.2.1
-  on_process_button_widget: ^2.0.6
   get_storage: ^2.1.1
   tuple: ^2.0.2
   device_preview: ^1.2.0
   flutter_svg: ^2.0.17
+  on_process_button_widget: ^2.0.6
+  on_text_input_widget: ^0.0.4
 
 dev_dependencies:
   flutter_test:

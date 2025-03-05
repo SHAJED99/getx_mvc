@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:getx_mvc/src/models/data/app_models/user_model.dart';
 
 /// Handles user authentication status. This will not use to call Login API or
 /// similar types of operations
@@ -11,4 +12,7 @@ class AuthController extends GetxController {
   Future<void> init() async {
     await Future<void>.delayed(const Duration(seconds: 3));
   }
+
+  /// User model
+  final Rxn<UserModel> user = Rxn<UserModel>();
 }
