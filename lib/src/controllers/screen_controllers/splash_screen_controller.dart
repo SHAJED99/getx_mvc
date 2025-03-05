@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:getx_mvc/components.dart';
 import 'package:getx_mvc/src/controllers/data_controllers/app_data_controller.dart';
 import 'package:getx_mvc/src/controllers/data_controllers/auth_controller.dart';
+import 'package:getx_mvc/src/views/screens/authentication/authentication_wrapper_screen.dart';
 
 /// SplashScreenController class
 class SplashScreenController extends GetxController {
@@ -38,5 +39,8 @@ class SplashScreenController extends GetxController {
     if (!__isSplashScreenShown || !__isInitialized) return;
 
     // ---------------------------------------------------- Route to next screen
+    if (AuthController.to.user.value == null) {
+      Get.offAll(() => const AuthenticationWrapperScreen());
+    }
   }
 }
