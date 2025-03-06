@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:getx_mvc/components.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -113,6 +114,7 @@ class AppTheme {
   }) {
     return ThemeData(
       textTheme: AppTextStyles._textTheme(context),
+      // buttonTheme: ButtonThemeData(height: defaultButtonHeight),
       colorScheme: brightness == Brightness.light
           ? AppColors._lightScheme
           : AppColors._darkScheme,

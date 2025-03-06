@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
-import 'package:getx_mvc/components.dart';
-import 'package:getx_mvc/src/controllers/data_controllers/app_data_controller.dart';
-import 'package:getx_mvc/src/controllers/data_controllers/auth_controller.dart';
-import 'package:getx_mvc/src/views/screens/authentication/authentication_wrapper_screen.dart';
+
+import '../../../components.dart';
+import '../../views/screens/authentication/authentication_wrapper_screen.dart';
+import '../data_controllers/app_data_controller.dart';
+import '../data_controllers/auth_controller.dart';
 
 /// SplashScreenController class
 class SplashScreenController extends GetxController {

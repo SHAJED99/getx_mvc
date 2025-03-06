@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_mvc/components.dart';
-import 'package:getx_mvc/src/models/localization/app_translations.dart';
-import 'package:getx_mvc/src/utils/dev_functions/dev_scaffold.dart';
-import 'package:getx_mvc/src/views/widgets/loading_bar.dart';
-import 'package:getx_mvc/src/views/widgets/svg.dart';
-import 'package:getx_mvc/src/views/widgets/text.dart';
 
+import '../../../components.dart';
 import '../../controllers/screen_controllers/splash_screen_controller.dart';
+import '../../models/localization/app_translations.dart';
+import '../../utils/dev_functions/dev_scaffold.dart';
+import '../widgets/loading_bar.dart';
+import '../widgets/svg.dart';
+import '../widgets/text.dart';
 
 /// Splash Screen
 class SplashScreen extends StatefulWidget {
@@ -72,7 +72,7 @@ class _AppDetails extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 1,
               child: CustomSVG(
-                'lib/assets/svg/logo.svg',
+                'lib/assets/svg/logos/logo.svg',
                 color: color,
               ),
             ),

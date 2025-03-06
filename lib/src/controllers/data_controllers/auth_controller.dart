@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:getx_mvc/src/models/data/app_models/user_model.dart';
+
+import '../../models/data/app_models/user_model.dart';
 
 /// Handles user authentication status. This will not use to call Login API or
 /// similar types of operations

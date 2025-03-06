@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:getx_mvc/src/controllers/data_controllers/auth_controller.dart';
-import 'package:getx_mvc/src/views/screens/splash_screen.dart';
 
 import 'components.dart';
 import 'src/controllers/data_controllers/app_data_controller.dart';
+import 'src/controllers/data_controllers/auth_controller.dart';
 import 'src/models/environment/environment.dart';
 import 'src/models/localization/app_translations.dart';
 import 'src/models/theme/app_theme.dart';
+import 'src/views/screens/splash_screen.dart';
 
 void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();

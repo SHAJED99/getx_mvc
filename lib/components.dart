@@ -9,6 +9,12 @@ const String appName = 'GetX MVC Template';
 const String appDescription =
     '''Use the GetX MVC Template to start a new project with GetX. To read more about this template, go to the Readme.md file.''';
 
+/// App Terms and Conditions
+const String urlTOS = 'https://www.google.com';
+
+/// App Privacy Policy
+const String urlPP = 'https://www.google.com';
+
 //! ------------------------------------------------------------------ Dimension
 /// Designed screen size
 const Size defaultBaseScreenSize = Size(360, 690);
@@ -42,23 +48,3 @@ const Duration defaultDuration = Duration(milliseconds: 500);
 
 /// OTP resend waiting time
 const Duration defaultOtpWaiting = Duration(seconds: 120);
-
-//! ----------------------------------------------------------------- Validation
-/// Phone number length
-const int defaultPhoneNumberLength = 11;
-
-/// Name minium length
-const int defaultNameMinLength = 8;
-
-/// Password minium length
-const int defaultPasswordMinLength = 6;
-
-/// Address minium length
-const int defaultAddressLength = 10;
-
-/// Email validation pattern
-const String defaultEmailValidationPattern =
-    r'^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$';
-
-/// OTP length
-const int defaultOtpValidationLength = 5;

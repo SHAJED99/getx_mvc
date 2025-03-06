@@ -3,17 +3,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:getx_mvc/src/controllers/screen_controllers/authentication_wrapper_screen_controller.dart';
-import 'package:getx_mvc/src/utils/dev_functions/dev_scaffold.dart';
-import 'package:getx_mvc/src/views/widgets/animated_size.dart';
+import 'package:getx_mvc/src/models/localization/app_translations.dart';
 import 'package:on_process_button_widget/on_process_button_widget.dart';
 import 'package:on_text_input_widget/on_text_input_widget.dart';
 
 import '../../../../components.dart';
+import '../../../controllers/screen_controllers/authentication_wrapper_screen_controller.dart';
 import '../../../utils/dev_functions/dev_auto_fill_button.dart';
+import '../../../utils/dev_functions/dev_scaffold.dart';
 import '../../../utils/functions/form_validation.dart';
+import '../../widgets/animated_size.dart';
+import '../../widgets/button.dart';
+import '../../widgets/divided_bar.dart';
 import '../../widgets/size.dart';
 import '../../widgets/text.dart';
+import '../../widgets/toc_and_pp.dart';
 
 /// AuthenticationWrapperScreen
 class AuthenticationWrapperScreen extends StatefulWidget {
@@ -76,34 +80,45 @@ class _AuthenticationWrapperScreenState
                                   fit: BoxFit.scaleDown,
                                   child: CustomTextDisplay.S(
                                     text: _controller.isLogin.value == null
-                                        ? 'Reset password'
+                                        ? TextEnum.resetPassword.tr
                                         : _controller.isLogin.value!
-                                            ? 'Login'
-                                            : 'Signup',
+                                            ? TextEnum.login.tr
+                                            : TextEnum.signup.tr,
                                   ),
                                 ),
                               ),
                             ),
                             Obx(
-                              () => CustomAnimatedSize(
-                                widthFactor: 1,
-                                alignment: Alignment.topCenter,
-                                child: CustomTextTitle.S(
-                                  text: _controller.isLogin.value == null
-                                      ? 'Provide your email to reset the password. An email to reset password will be sent to the given email.'
-                                      : "Provide email and password to ${_controller.isLogin.value! ? "login" : "signup"} into the app.",
-                                ),
-                              ),
+                              () {
+                                String message = '';
+                                if (_controller.isLogin.value == null) {
+                                  message =
+                                      TextEnum.provideEmailResetPassword.tr;
+                                } else {
+                                  message = _controller.isLogin.value!
+                                      ? TextEnum.provideEmailPasswordLoginApp.tr
+                                      : TextEnum
+                                          .provideEmailPasswordSignupApp.tr;
+                                }
+                                return CustomAnimatedSize(
+                                  widthFactor: 1,
+                                  alignment: Alignment.topCenter,
+                                  child: CustomTextTitle.S(
+                                    text: message,
+                                  ),
+                                );
+                              },
                             ),
                             const CustomSize(),
 
                             //! Email
-                            const _Heading('Email'),
+                            _Heading(TextEnum.email.tr),
                             OnTextInputWidgetUserField(
                               textEditingController: _controller.emailC,
+                              showDetailError: true,
                               keyboardType: TextInputType.emailAddress,
-                              hintText: 'Enter your email',
-                              svg: 'lib/assets/icons/message_icon.svg',
+                              hintText: TextEnum.enterYourEmail.tr,
+                              svg: 'lib/assets/svg/icons/message_icon.svg',
                               validator: (String? value) => emailValidation(
                                 value,
                                 showDetails: _controller.isLogin.value == false,
@@ -121,17 +136,19 @@ class _AuthenticationWrapperScreenState
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          const _Heading('Password'),
+                                          _Heading(TextEnum.password.tr),
                                           OnTextInputWidgetUserField(
                                             textEditingController:
                                                 _controller.passwordC,
                                             obscureText: true,
+                                            showDetailError: true,
                                             keyboardType:
                                                 TextInputType.visiblePassword,
-                                            hintText: 'Enter your password',
+                                            hintText:
+                                                TextEnum.enterYourPassword.tr,
                                             svg:
-                                                'lib/assets/icons/lock_icon.svg',
-                                            validator: (value) =>
+                                                'lib/assets/svg/icons/lock_icon.svg',
+                                            validator: (String? value) =>
                                                 passwordValidation(
                                               value,
                                               showDetails:
@@ -146,20 +163,21 @@ class _AuthenticationWrapperScreenState
 
                             const CustomSize(),
 
-                            // Align(
-                            //   child: Obx(
-                            //     () => CustomAnimatedSize(
-                            //       widthFactor: 1,
-                            //       alignment: Alignment.bottomCenter,
-                            //       child: _controller.isLogin.value == null
-                            //           ? null
-                            //           : CustomTOCAndPP(
-                            //               value: _controller.isExcepted.value,
-                            //               onChanged: (value) => _controller
-                            //                   .isExcepted.value = value),
-                            //     ),
-                            //   ),
-                            // ),
+                            Align(
+                              child: Obx(
+                                () => CustomAnimatedSize(
+                                  widthFactor: 1,
+                                  alignment: Alignment.bottomCenter,
+                                  child: _controller.isLogin.value == null
+                                      ? null
+                                      : CustomTOCAndPP(
+                                          value: _controller.isExcepted.value,
+                                          onChanged: (bool value) => _controller
+                                              .isExcepted.value = value,
+                                        ),
+                                ),
+                              ),
+                            ),
 
                             const CustomSize(),
 
@@ -172,7 +190,7 @@ class _AuthenticationWrapperScreenState
                               Column(
                                 children: <Widget>[
                                   const CustomSize(fraction: 3 / 4),
-                                  CustomDividedBar.or(),
+                                  const CustomDividedBar.or(),
                                   const CustomSize(),
                                   _GoogleSignIn(),
                                 ],
@@ -224,10 +242,10 @@ class _Login extends StatelessWidget {
       child: Obx(
         () => Text(
           _controller.isLogin.value == null
-              ? 'Reset'
+              ? TextEnum.reset.tr
               : _controller.isLogin.value!
-                  ? 'Login'
-                  : 'Signup',
+                  ? TextEnum.login.tr
+                  : TextEnum.signup.tr,
         ),
       ),
     );
@@ -251,13 +269,13 @@ class _GroupButton extends StatelessWidget {
               child: _controller.isLogin.value == null
                   ? CustomTextButton(
                       onDone: (_) => _controller.isLogin.value = true,
-                      child: const Text('Login'),
+                      child: Text(TextEnum.login.tr),
                     )
                   : !_controller.isLogin.value!
                       ? null
                       : CustomTextButton(
                           onDone: (_) => _controller.isLogin.value = null,
-                          child: const Text('Forgot Password'),
+                          child: Text(TextEnum.forgotPassword.tr),
                         ),
             ),
             Text(
@@ -275,8 +293,8 @@ class _GroupButton extends StatelessWidget {
                 },
                 child: Text(
                   _controller.isLogin.value!
-                      ? 'Sign up'
-                      : 'Already have an account?',
+                      ? TextEnum.signup.tr
+                      : TextEnum.alreadyHaveAccount.tr,
                 ),
               ),
           ],
