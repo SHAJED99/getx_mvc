@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_mvc/src/models/localization/app_translations.dart';
 
 import '../../utils/user_message/snackbar.dart';
 
@@ -45,7 +46,7 @@ class AuthenticationWrapperScreenController extends GetxController {
 
   Future<bool> requestLoginSignup() async {
     if (isLogin.value != null && !isExcepted.value) {
-      showToast(message: 'Please check the box');
+      showToast(message: TextEnum.pleaseCheckBox.tr);
       return false;
     }
     // return await _controller.loginSignupReset(

@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:getx_mvc/src/models/localization/app_translations.dart';
+import 'package:getx_mvc/src/views/widgets/svg.dart';
 import 'package:on_process_button_widget/on_process_button_widget.dart';
 import 'package:on_text_input_widget/on_text_input_widget.dart';
 
@@ -79,6 +81,7 @@ class _AuthenticationWrapperScreenState
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: CustomTextDisplay.S(
+                                    isBold: true,
                                     text: _controller.isLogin.value == null
                                         ? TextEnum.resetPassword.tr
                                         : _controller.isLogin.value!
@@ -88,6 +91,7 @@ class _AuthenticationWrapperScreenState
                                 ),
                               ),
                             ),
+                            const CustomSize(fraction: 4),
                             Obx(
                               () {
                                 String message = '';
@@ -114,11 +118,15 @@ class _AuthenticationWrapperScreenState
                             //! Email
                             _Heading(TextEnum.email.tr),
                             OnTextInputWidgetUserField(
+                              key: GlobalKey(),
                               textEditingController: _controller.emailC,
                               showDetailError: true,
                               keyboardType: TextInputType.emailAddress,
                               hintText: TextEnum.enterYourEmail.tr,
                               svg: 'lib/assets/svg/icons/message_icon.svg',
+                              autofillHints: const <String>[
+                                AutofillHints.email,
+                              ],
                               validator: (String? value) => emailValidation(
                                 value,
                                 showDetails: _controller.isLogin.value == false,
@@ -138,6 +146,7 @@ class _AuthenticationWrapperScreenState
                                         children: <Widget>[
                                           _Heading(TextEnum.password.tr),
                                           OnTextInputWidgetUserField(
+                                            key: GlobalKey(),
                                             textEditingController:
                                                 _controller.passwordC,
                                             obscureText: true,
@@ -186,15 +195,7 @@ class _AuthenticationWrapperScreenState
                             const CustomSize(fraction: 4),
                             _GroupButton(),
 
-                            if (Platform.isAndroid)
-                              Column(
-                                children: <Widget>[
-                                  const CustomSize(fraction: 3 / 4),
-                                  const CustomDividedBar.or(),
-                                  const CustomSize(),
-                                  _GoogleSignIn(),
-                                ],
-                              ),
+                            const _OtherLoginWay(),
                           ],
                         ),
                       ),
@@ -225,7 +226,8 @@ class _Heading extends StatelessWidget {
 
 class _Login extends StatelessWidget {
   _Login();
-  final AuthenticationWrapperScreenController _controller = Get.find();
+  final AuthenticationWrapperScreenController _controller =
+      AuthenticationWrapperScreenController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -234,9 +236,10 @@ class _Login extends StatelessWidget {
       roundBorderWhenRunning: false,
       onDone: _controller.requestSuccess,
       onTap: () async {
-        bool isValid =
-            _controller.loginFormKey.currentState?.validate() ?? false;
-        if (!isValid) return false;
+        FormState? formCurrentState = _controller.loginFormKey.currentState;
+        if (formCurrentState == null) return false;
+        if (!formCurrentState.validate()) return false;
+
         return await _controller.requestLoginSignup();
       },
       child: Obx(
@@ -254,7 +257,8 @@ class _Login extends StatelessWidget {
 
 class _GroupButton extends StatelessWidget {
   _GroupButton();
-  final AuthenticationWrapperScreenController _controller = Get.find();
+  final AuthenticationWrapperScreenController _controller =
+      AuthenticationWrapperScreenController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -304,9 +308,28 @@ class _GroupButton extends StatelessWidget {
   }
 }
 
+class _OtherLoginWay extends StatelessWidget {
+  const _OtherLoginWay();
+
+  @override
+  Widget build(BuildContext context) {
+    if (kIsWeb || !Platform.isAndroid) return const SizedBox();
+
+    return Column(
+      children: <Widget>[
+        const CustomSize(fraction: 3 / 4),
+        const CustomDividedBar.or(),
+        const CustomSize(),
+        _GoogleSignIn(),
+      ],
+    );
+  }
+}
+
 class _GoogleSignIn extends StatelessWidget {
   _GoogleSignIn();
-  final AuthenticationWrapperScreenController _controller = Get.find();
+  final AuthenticationWrapperScreenController _controller =
+      AuthenticationWrapperScreenController.to;
 
   @override
   Widget build(BuildContext context) {
@@ -319,9 +342,8 @@ class _GoogleSignIn extends StatelessWidget {
           borderRadius: BorderRadius.circular(10000),
           backgroundColor: Colors.transparent,
           expanded: false,
-          iconColor: Theme.of(context).colorScheme.primary,
-          child: SvgPicture.asset(
-            'lib/assets/icons/google_icon.svg',
+          child: CustomSVG(
+            'lib/assets/svg/icons/google_icon.svg',
             height: defaultPadding,
           ),
         ),

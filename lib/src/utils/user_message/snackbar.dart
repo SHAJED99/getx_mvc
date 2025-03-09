@@ -45,6 +45,9 @@ Future<void> showSnackBar({
   EdgeInsets? padding,
   EdgeInsets? margin,
   Widget? child,
+  Color? titleColor,
+  Color? messageColor,
+  Color? backgroundColor,
 }) async {
   final Completer<void> c = completer ?? Completer<void>();
   if (Get.isSnackbarOpen) Get.closeAllSnackbars();
@@ -61,7 +64,9 @@ Future<void> showSnackBar({
       children: <Widget>[
         Text(
           message,
-          style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
+          style: textTheme.bodyMedium?.copyWith(
+            color: titleColor ?? colorScheme.surface,
+          ),
         ),
         if (child != null)
           Padding(
@@ -81,9 +86,10 @@ Future<void> showSnackBar({
         c.complete();
       }
     },
-    colorText: theme.colorScheme.onPrimaryContainer,
+    colorText: messageColor ?? colorScheme.surface,
     maxWidth: defaultMaxBoxWidth,
-    backgroundColor: theme.colorScheme.primaryContainer.withAlpha(200),
+    backgroundColor:
+        backgroundColor ?? colorScheme.onSurface.withValues(alpha: 127),
     mainButton: mainButton,
     duration: duration,
     animationDuration: animationDuration,

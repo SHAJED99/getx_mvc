@@ -58,6 +58,10 @@ enum TextEnum {
     en: 'Already have an account?',
     bn: 'ইতিমধ্যে একটি অ্যাকাউন্ট আছে?',
   ),
+  pleaseCheckBox(
+    en: 'Please check the box',
+    bn: 'অনুগ্রহ করে বাক্সটি চেক করুন',
+  ),
 
   // TODO: Add more entries as required
   ;

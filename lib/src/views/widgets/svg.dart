@@ -9,6 +9,8 @@ class CustomSVG extends StatelessWidget {
     super.key,
     this.color,
     this.onPrimary = false,
+    this.width,
+    this.height,
   });
 
   /// SVG asset link
@@ -20,11 +22,21 @@ class CustomSVG extends StatelessWidget {
   /// If the color is on primary
   final bool onPrimary;
 
+  /// If specified, the width to use for the SVG. If unspecified, the SVG will
+  /// take the width of its parent.
+  final double? width;
+
+  /// If specified, the height to use for the SVG. If unspecified, the SVG will
+  /// take the height of its parent.
+  final double? height;
+
   @override
   Widget build(BuildContext context) {
     final ColorScheme c = Theme.of(context).colorScheme;
     return SvgPicture.asset(
       svgLink,
+      height: height,
+      width: width,
       colorFilter: ColorFilter.mode(
         color ?? (onPrimary ? c.onPrimary : c.onSurface),
         BlendMode.srcIn,

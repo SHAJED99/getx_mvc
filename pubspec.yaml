@@ -15,7 +15,7 @@ dependencies:
 
   #! ---------------------------------------------------------------- Customized
   on_process_button_widget: ^2.0.6
-  on_text_input_widget: ^0.0.6
+  on_text_input_widget: ^0.0.7
   flutter_dotenv: ^5.2.1
   get: ^4.7.2
   flutter_screenutil: ^5.9.3

@@ -114,7 +114,7 @@ class AppTheme {
   }) {
     return ThemeData(
       textTheme: AppTextStyles._textTheme(context),
-      // buttonTheme: ButtonThemeData(height: defaultButtonHeight),
+      buttonTheme: ButtonThemeData(height: defaultButtonHeight),
       colorScheme: brightness == Brightness.light
           ? AppColors._lightScheme
           : AppColors._darkScheme,
