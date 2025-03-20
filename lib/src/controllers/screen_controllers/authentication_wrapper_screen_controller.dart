@@ -9,7 +9,7 @@ import '../../utils/user_message/snackbar.dart';
 /// Handles authentication screens
 class AuthenticationWrapperScreenController extends GetxController {
   /// Get AuthenticationWrapperScreenController GetxController
-  static AuthenticationWrapperScreenController get to => Get.find();
+  static AuthenticationWrapperScreenController get find => Get.find();
 
   final RxnBool isLogin = RxnBool(true);
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();

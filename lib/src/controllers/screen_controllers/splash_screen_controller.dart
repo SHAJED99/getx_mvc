@@ -8,7 +8,7 @@ import '../data_controllers/auth_controller.dart';
 /// SplashScreenController class
 class SplashScreenController extends GetxController {
   /// Get SplashScreenController GetxController
-  static SplashScreenController get to => Get.find();
+  static SplashScreenController get find => Get.find();
 
   bool __isSplashScreenShown = false;
   bool __isInitialized = false;
@@ -29,8 +29,8 @@ class SplashScreenController extends GetxController {
 
   Future<void> _initializeControllers() async {
     //! -------------------------------------------- Initialize controllers here
-    await AppDataController.to.init();
-    await AuthController.to.init();
+    await AppDataController.find.init();
+    await AuthController.find.init();
 
     __isInitialized = true;
     __gotoNextScreen();
@@ -40,7 +40,7 @@ class SplashScreenController extends GetxController {
     if (!__isSplashScreenShown || !__isInitialized) return;
 
     // ---------------------------------------------------- Route to next screen
-    if (AuthController.to.user.value == null) {
+    if (AuthController.find.user.value == null) {
       Get.offAll(() => const AuthenticationWrapperScreen());
     }
   }

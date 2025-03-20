@@ -25,7 +25,8 @@ class CustomTextButton extends StatelessWidget {
 
   /// A callback function that is called when the process is done.
   ///
-  /// The callback receives a boolean value indicating the success of the process.
+  /// The callback receives a boolean value indicating the success of the
+  /// process.
   final dynamic Function(bool? _)? onDone;
 
   /// Whether the button should be expanded to fill its parent.
@@ -54,6 +55,7 @@ class CustomTextButton extends StatelessWidget {
       constraints: const BoxConstraints(),
       textStyle: textTheme.labelLarge?.copyWith(color: color ?? textColor),
       onDone: onDone,
+      iconColor: color ?? textColor,
       child: child,
     );
   }

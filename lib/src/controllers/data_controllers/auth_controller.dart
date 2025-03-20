@@ -6,7 +6,7 @@ import '../../models/data/app_models/user_model.dart';
 /// similar types of operations
 class AuthController extends GetxController {
   /// Get SplashScreenController GetxController
-  static AuthController get to => Get.find();
+  static AuthController get find => Get.find();
 
   /// Authentication initialing function. This will be called from splash screen
   /// controller

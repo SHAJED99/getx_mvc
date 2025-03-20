@@ -32,13 +32,13 @@ class CustomSVG extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme c = Theme.of(context).colorScheme;
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return SvgPicture.asset(
       svgLink,
       height: height,
       width: width,
       colorFilter: ColorFilter.mode(
-        color ?? (onPrimary ? c.onPrimary : c.onSurface),
+        color ?? (onPrimary ? colorScheme.onPrimary : colorScheme.onSurface),
         BlendMode.srcIn,
       ),
     );

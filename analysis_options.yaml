@@ -3,40 +3,40 @@ include: package:flutter_lints/flutter.yaml
 linter:
   rules:
     #! Type safety and readability
-    - always_specify_types                                                      # Always specify types for variables and return types
-    - avoid_dynamic_calls                                                       # Avoid calling methods on dynamic variables
-    - avoid_null_checks_in_equality_operators                                   # Avoid null checks in equality expressions
-    - prefer_final_in_for_each                                                  # Use final in for-each loops when possible
+    - always_specify_types # Always specify types for variables and return types
+    - avoid_dynamic_calls # Avoid calling methods on dynamic variables
+    - avoid_null_checks_in_equality_operators # Avoid null checks in equality expressions
+    - prefer_final_in_for_each # Use final in for-each loops when possible
 
     #! Code style and formatting
-    - prefer_const_constructors                                                 # Use const constructors whenever possible
-    - prefer_final_fields                                                       # Use final for fields that are not reassigned
-    - prefer_single_quotes                                                      # Use single quotes for strings
-    - require_trailing_commas                                                   # Require trailing commas for better diffs
+    - prefer_const_constructors # Use const constructors whenever possible
+    - prefer_final_fields # Use final for fields that are not reassigned
+    - prefer_single_quotes # Use single quotes for strings
+    - require_trailing_commas # Require trailing commas for better diffs
 
     #! Best practices
-    - avoid_print                                                               # Avoid print statements, use a logger
-    - prefer_typing_uninitialized_variables                                     # Prefer explicit types for uninitialized variables
-    - avoid_setters_without_getters                                             # Avoid defining setters unless needed
+    - avoid_print # Avoid print statements, use a logger
+    - prefer_typing_uninitialized_variables # Prefer explicit types for uninitialized variables
+    - avoid_setters_without_getters # Avoid defining setters unless needed
     - sort_constructors_first
     - lines_longer_than_80_chars
 
     #! Documentation
-    - public_member_api_docs                                                    # Enforce documentation for public APIs
-    - comment_references                                                        # Use references like [ClassName] in comments
+    - public_member_api_docs # Enforce documentation for public APIs
+    - comment_references # Use references like [ClassName] in comments
 
     #! Performance
-    - use_decorated_box                                                         # Use DecoratedBox for simple BoxDecoration cases
-    - unnecessary_this                                                          # Avoid unnecessary 'this.' references
-    - prefer_const_literals_to_create_immutables                                # Prefer const for immutable literals
+    - use_decorated_box # Use DecoratedBox for simple BoxDecoration cases
+    - unnecessary_this # Avoid unnecessary 'this.' references
+    - prefer_const_literals_to_create_immutables # Prefer const for immutable literals
 
 analyzer:
   exclude:
     #! Ignore generated files
-    - "**/*.g.dart"
-    - "**/*.freezed.dart"
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
 
   #! Custom settings
   strong-mode:
-    implicit-casts: false                                                       # Disallow implicit casting
-    implicit-dynamic: false                                                     # Disallow implicit dynamic typing
+    implicit-casts: false # Disallow implicit casting
+    implicit-dynamic: false # Disallow implicit dynamic typing

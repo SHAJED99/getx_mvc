@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 /// With color and style.
 void devPrint(
   dynamic message, {
+  String heading = '',
   DevPrintColorEnum? color,
   bool isBold = false,
   bool isUnderline = false,
@@ -30,7 +31,7 @@ void devPrint(
     } catch (_) {}
     String coloredString = '$log$bold$underline${color?.code ?? ''}';
 
-    String lingDash = '-' * count;
+    String lingDash = '-' * count + heading;
     if (stringList.length > 1) print('$coloredString$lingDash');
 
     for (final String string in stringList) {

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:getx_mvc/src/models/localization/app_translations.dart';
 import 'package:getx_mvc/src/views/widgets/svg.dart';
@@ -227,7 +226,7 @@ class _Heading extends StatelessWidget {
 class _Login extends StatelessWidget {
   _Login();
   final AuthenticationWrapperScreenController _controller =
-      AuthenticationWrapperScreenController.to;
+      AuthenticationWrapperScreenController.find;
 
   @override
   Widget build(BuildContext context) {
@@ -258,7 +257,7 @@ class _Login extends StatelessWidget {
 class _GroupButton extends StatelessWidget {
   _GroupButton();
   final AuthenticationWrapperScreenController _controller =
-      AuthenticationWrapperScreenController.to;
+      AuthenticationWrapperScreenController.find;
 
   @override
   Widget build(BuildContext context) {
@@ -329,7 +328,7 @@ class _OtherLoginWay extends StatelessWidget {
 class _GoogleSignIn extends StatelessWidget {
   _GoogleSignIn();
   final AuthenticationWrapperScreenController _controller =
-      AuthenticationWrapperScreenController.to;
+      AuthenticationWrapperScreenController.find;
 
   @override
   Widget build(BuildContext context) {
@@ -342,6 +341,7 @@ class _GoogleSignIn extends StatelessWidget {
           borderRadius: BorderRadius.circular(10000),
           backgroundColor: Colors.transparent,
           expanded: false,
+          iconColor: Theme.of(context).colorScheme.onSurface,
           child: CustomSVG(
             'lib/assets/svg/icons/google_icon.svg',
             height: defaultPadding,
