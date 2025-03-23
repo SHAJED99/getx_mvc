@@ -8,12 +8,12 @@ class AuthController extends GetxController {
   /// Get SplashScreenController GetxController
   static AuthController get find => Get.find();
 
+  /// User model
+  final Rxn<UserModel> user = Rxn<UserModel>();
+
   /// Authentication initialing function. This will be called from splash screen
   /// controller
   Future<void> init() async {
     await Future<void>.delayed(const Duration(seconds: 3));
   }
-
-  /// User model
-  final Rxn<UserModel> user = Rxn<UserModel>();
 }

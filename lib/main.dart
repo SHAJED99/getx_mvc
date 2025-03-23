@@ -15,6 +15,7 @@ import 'src/models/theme/app_theme.dart';
 import 'src/views/screens/splash_screen.dart';
 
 void main(List<String> args) async {
+  //? This line is important for initializing the app
   WidgetsFlutterBinding.ensureInitialized();
 
   //! ------------------------------------------------ App supported orientation

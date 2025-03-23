@@ -91,6 +91,18 @@ enum TextEnum {
     bn: 'অনুগ্রহ করে বাক্সটি চেক করুন',
   ),
 
+  /// I have read and approved
+  iHaveReadAndApproved(
+    en: 'I have read and approved',
+    bn: 'আমি পড়েছি এবং অনুমোদিত করেছি',
+  ),
+
+  /// And
+  and(
+    en: 'and',
+    bn: 'এবং',
+  ),
+
   // TODO: Add more entries as required
   ;
 

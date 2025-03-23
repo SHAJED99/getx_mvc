@@ -3,13 +3,12 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_mvc/src/models/localization/app_translations.dart';
-import 'package:getx_mvc/src/views/widgets/svg.dart';
 import 'package:on_process_button_widget/on_process_button_widget.dart';
 import 'package:on_text_input_widget/on_text_input_widget.dart';
 
 import '../../../../components.dart';
-import '../../../controllers/screen_controllers/authentication_wrapper_screen_controller.dart';
+import '../../../controllers/screen_controllers/authentication/authentication_wrapper_screen_controller.dart';
+import '../../../models/localization/app_translations.dart';
 import '../../../utils/dev_functions/dev_auto_fill_button.dart';
 import '../../../utils/dev_functions/dev_scaffold.dart';
 import '../../../utils/functions/form_validation.dart';
@@ -17,6 +16,7 @@ import '../../widgets/animated_size.dart';
 import '../../widgets/button.dart';
 import '../../widgets/divided_bar.dart';
 import '../../widgets/size.dart';
+import '../../widgets/svg.dart';
 import '../../widgets/text.dart';
 import '../../widgets/toc_and_pp.dart';
 

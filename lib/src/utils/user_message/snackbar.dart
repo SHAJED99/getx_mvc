@@ -55,6 +55,8 @@ Future<void> showSnackBar({
   final ThemeData theme = Get.theme;
   final ColorScheme colorScheme = theme.colorScheme;
   final TextTheme textTheme = theme.textTheme;
+  final Color textColor = colorScheme.onSecondary;
+  final Color containerColor = colorScheme.secondary.withAlpha(200);
 
   Get.snackbar(
     title,
@@ -65,7 +67,7 @@ Future<void> showSnackBar({
         Text(
           message,
           style: textTheme.bodyMedium?.copyWith(
-            color: titleColor ?? colorScheme.surface,
+            color: titleColor ?? textColor,
           ),
         ),
         if (child != null)
@@ -86,13 +88,13 @@ Future<void> showSnackBar({
         c.complete();
       }
     },
-    colorText: messageColor ?? colorScheme.surface,
+    colorText: messageColor ?? textColor,
     maxWidth: defaultMaxBoxWidth,
-    backgroundColor:
-        backgroundColor ?? colorScheme.onSurface.withValues(alpha: 127),
+    backgroundColor: backgroundColor ?? containerColor,
     mainButton: mainButton,
     duration: duration,
     animationDuration: animationDuration,
+    barBlur: 2,
   );
 
   await c.future;

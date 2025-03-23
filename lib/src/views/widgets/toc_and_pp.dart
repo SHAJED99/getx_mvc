@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:getx_mvc/src/models/localization/app_translations.dart';
 
 import '../../../components.dart';
 import '../../utils/functions/string_conversion.dart';
@@ -26,7 +27,7 @@ class CustomTOCAndPP extends StatelessWidget {
     final TextTheme textTheme = theme.textTheme;
     final TextStyle? buttonText =
         textTheme.titleSmall?.copyWith(color: colorScheme.onSurface);
-    final Color cB = colorScheme.primary;
+    final Color color = colorScheme.primary;
 
     TextSpan tSpan(String s, Function(TapDownDetails _)? onTapDown) {
       return TextSpan(
@@ -35,9 +36,9 @@ class CustomTOCAndPP extends StatelessWidget {
           color: Colors.transparent,
           decoration: TextDecoration.underline,
           decorationThickness: defaultBorderWidth1,
-          decorationColor: cB,
+          decorationColor: color,
           shadows: <Shadow>[
-            Shadow(color: cB, offset: Offset(0, -defaultBorderWidth2)),
+            Shadow(color: color, offset: Offset(0, -defaultBorderWidth2)),
           ],
         ),
         recognizer: TapGestureRecognizer()..onTapDown = onTapDown,
@@ -49,17 +50,18 @@ class CustomTOCAndPP extends StatelessWidget {
       children: <Widget>[
         Checkbox(
           value: value,
-          onChanged: (bool? value) =>
-              onChanged == null ? null : onChanged!(value ?? false),
+          onChanged: (bool? value) {
+            onChanged == null ? null : onChanged!(value ?? false);
+          },
         ),
         Flexible(
           child: Text.rich(
             style: buttonText,
             TextSpan(
-              text: 'I have read and approved ',
+              text: '${TextEnum.iHaveReadAndApproved.tr} ',
               children: <InlineSpan>[
                 tSpan('Terms and Conditions', (_) => urlTOS.launchUrl),
-                const TextSpan(text: ' and '),
+                TextSpan(text: ' ${TextEnum.and.tr} '),
                 tSpan('Privacy Policy', (_) => urlPP.launchUrl),
               ],
             ),

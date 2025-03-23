@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_mvc/src/controllers/data_controllers/app_data_controller.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../components.dart';
 import '../../controllers/screen_controllers/splash_screen_controller.dart';
@@ -118,10 +120,20 @@ class _AppStatus extends StatelessWidget {
       children: <Widget>[
         CustomCircularProgressBar(color: color),
         SizedBox(height: defaultPadding / 2),
-        CustomTextBody.S(
-          text: '${TextEnum.version.tr}: 1.0.0',
-          isBold: true,
-          color: color,
+        Obx(
+          () {
+            AppDataController controller = AppDataController.find;
+            PackageInfo? packageInfo = controller.packageInformation.value;
+            String appVersion = packageInfo?.version ?? '';
+
+            if (appVersion.isEmpty) return const SizedBox();
+
+            return CustomTextBody.S(
+              text: '${TextEnum.version.tr}: $appVersion',
+              isBold: true,
+              color: color,
+            );
+          },
         ),
       ],
     );

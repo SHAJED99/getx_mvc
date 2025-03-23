@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_mvc/src/models/localization/app_translations.dart';
+import 'package:getx_mvc/src/controllers/data_controllers/auth_controller.dart';
 
-import '../../utils/user_message/snackbar.dart';
+import '../../../models/localization/app_translations.dart';
+import '../../../utils/user_message/snackbar.dart';
 
 /// Handles authentication screens
 class AuthenticationWrapperScreenController extends GetxController {
@@ -65,12 +66,15 @@ class AuthenticationWrapperScreenController extends GetxController {
       return;
     }
 
+    final AuthController _authController = AuthController.find;
+
     // final user = FirebaseAuth.instance.currentUser;
     // if (user == null) return;
 
     // if (user.emailVerified) {
     //   Get.offAll(() => const DashboardWrapperScreen());
-    // } else {
+    // }
+    //else {
     //   Get.offAll(() => const AccountVerificationScreen());
     // }
   }

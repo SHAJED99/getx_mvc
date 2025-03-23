@@ -1,9 +1,8 @@
-import 'package:dio/dio.dart';
-import 'package:getx_mvc/src/models/http/http_error_enum.dart';
-import 'package:getx_mvc/src/utils/dev_functions/dev_print.dart';
-import 'package:getx_mvc/src/utils/user_message/snackbar.dart';
+part of 'http_repository.dart';
 
-class HttpErrorHandler {
+/// Class to handle HTTP errors
+class _HttpErrorHandler {
+  /// Handle HTTP errors
   Future<HTTPErrorEnum> errorHandler({
     bool showError = true,
     required Future<void> Function() function,
@@ -37,4 +36,5 @@ HTTPErrorEnum? _getErrorType(int? statusCode) {
       return error;
     }
   }
+  return null;
 }
