@@ -1,8 +1,13 @@
 import 'package:get_storage/get_storage.dart';
 
-/// This class is used to handle the local database.
-/// This can be used for saving simple local values in memory.
-class LocalDatabaseHandler {
+/// This class is used to handle [BaseUseCase].
+///
+/// This can be used for saving and reading simple local values.
+///
+/// [saveData] to save Data
+///
+/// [readData] to read Data
+abstract class BaseUseCase {
   static bool _isInit = false;
   static final GetStorage _storage = GetStorage();
 
@@ -15,18 +20,17 @@ class LocalDatabaseHandler {
   /// Save Data
   static Future<void> saveData({
     required String key,
-    required dynamic value,
+    required String value,
   }) async {
     await ____init;
     await _storage.write(key, value);
   }
 
   /// Read Data
-  static Future<T?> readData<T>({
+  static Future<String?> readData({
     required String key,
-    T? defaultValue,
   }) async {
     await ____init;
-    return _storage.read<T>(key) ?? defaultValue;
+    return _storage.read<String>(key);
   }
 }

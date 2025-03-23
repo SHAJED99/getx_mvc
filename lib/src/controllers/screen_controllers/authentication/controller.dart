@@ -1,22 +1,19 @@
 // ignore_for_file: public_member_api_docs
 
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:getx_mvc/src/controllers/data_controllers/auth_controller.dart';
-
-import '../../../models/localization/app_translations.dart';
-import '../../../utils/user_message/snackbar.dart';
+part of '../../../views/screens/authentication/authentication_wrapper_screen.dart';
 
 /// Handles authentication screens
-class AuthenticationWrapperScreenController extends GetxController {
-  /// Get AuthenticationWrapperScreenController GetxController
-  static AuthenticationWrapperScreenController get find => Get.find();
+class _AuthenticationScreenController extends GetxController {
+  /// Get [_AuthenticationScreenController] GetxController
+  static _AuthenticationScreenController get find => Get.find();
 
   final RxnBool isLogin = RxnBool(true);
   final GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   final TextEditingController emailC = TextEditingController();
   final TextEditingController passwordC = TextEditingController();
   final RxBool isExcepted = false.obs;
+
+  final _AuthenticationScreenUseCase _useCase = _AuthenticationScreenUseCase();
 
   @override
   void onClose() {
@@ -50,12 +47,24 @@ class AuthenticationWrapperScreenController extends GetxController {
       showToast(message: TextEnum.pleaseCheckBox.tr);
       return false;
     }
-    // return await _controller.loginSignupReset(
-    //   emailC.text.trim(),
-    //   passwordC.text.trim(),
-    //   isLogin.value,
-    // );
-    return true;
+
+    if (isLogin.value == true) {
+      return _useCase.login(
+        email: emailC.text.trim(),
+        password: passwordC.text.trim(),
+      );
+    }
+
+    if (isLogin.value == false) {
+      return _useCase.signup(
+        email: emailC.text.trim(),
+        password: passwordC.text.trim(),
+      );
+    }
+
+    return _useCase.resetPassword(
+      email: emailC.text.trim(),
+    );
   }
 
   Future<void> requestSuccess(bool? isSuccess) async {

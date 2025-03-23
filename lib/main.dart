@@ -9,10 +9,10 @@ import 'package:get/get.dart';
 import 'components.dart';
 import 'src/controllers/data_controllers/app_data_controller.dart';
 import 'src/controllers/data_controllers/auth_controller.dart';
-import 'src/models/environment/environment.dart';
-import 'src/models/localization/app_translations.dart';
-import 'src/models/theme/app_theme.dart';
-import 'src/views/screens/splash_screen.dart';
+import 'src/core/environment/environment.dart';
+import 'src/core/localization/app_translations.dart';
+import 'src/core/theme/app_theme.dart';
+import 'src/views/screens/splash_screen/splash_screen.dart';
 
 void main(List<String> args) async {
   //? This line is important for initializing the app

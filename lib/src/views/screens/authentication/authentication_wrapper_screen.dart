@@ -3,15 +3,21 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_mvc/src/models/data/app_models/user_model.dart';
 import 'package:on_process_button_widget/on_process_button_widget.dart';
 import 'package:on_text_input_widget/on_text_input_widget.dart';
+import 'package:dio/dio.dart' as dio;
+
+import 'package:getx_mvc/src/core/http/http_repository.dart';
 
 import '../../../../components.dart';
-import '../../../controllers/screen_controllers/authentication/authentication_wrapper_screen_controller.dart';
-import '../../../models/localization/app_translations.dart';
+import '../../../controllers/data_controllers/auth_controller.dart';
+import '../../../core/localization/app_translations.dart';
+import '../../../core/use_case/use_case.dart';
 import '../../../utils/dev_functions/dev_auto_fill_button.dart';
 import '../../../utils/dev_functions/dev_scaffold.dart';
 import '../../../utils/functions/form_validation.dart';
+import '../../../utils/user_message/snackbar.dart';
 import '../../widgets/animated_size.dart';
 import '../../widgets/button.dart';
 import '../../widgets/divided_bar.dart';
@@ -19,6 +25,10 @@ import '../../widgets/size.dart';
 import '../../widgets/svg.dart';
 import '../../widgets/text.dart';
 import '../../widgets/toc_and_pp.dart';
+
+part '../../../controllers/screen_controllers/authentication/controller.dart';
+part '../../../controllers/screen_controllers/authentication/repository.dart';
+part '../../../controllers/screen_controllers/authentication/use_case.dart';
 
 /// AuthenticationWrapperScreen
 class AuthenticationWrapperScreen extends StatefulWidget {
@@ -32,18 +42,13 @@ class AuthenticationWrapperScreen extends StatefulWidget {
 
 class _AuthenticationWrapperScreenState
     extends State<AuthenticationWrapperScreen> {
-  late final AuthenticationWrapperScreenController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = Get.put(AuthenticationWrapperScreenController());
-  }
+  final _AuthenticationScreenController _controller =
+      Get.put(_AuthenticationScreenController());
 
   @override
   void dispose() {
     super.dispose();
-    Get.delete<AuthenticationWrapperScreenController>();
+    Get.delete<_AuthenticationScreenController>();
   }
 
   @override
@@ -225,8 +230,8 @@ class _Heading extends StatelessWidget {
 
 class _Login extends StatelessWidget {
   _Login();
-  final AuthenticationWrapperScreenController _controller =
-      AuthenticationWrapperScreenController.find;
+  final _AuthenticationScreenController _controller =
+      _AuthenticationScreenController.find;
 
   @override
   Widget build(BuildContext context) {
@@ -256,8 +261,8 @@ class _Login extends StatelessWidget {
 
 class _GroupButton extends StatelessWidget {
   _GroupButton();
-  final AuthenticationWrapperScreenController _controller =
-      AuthenticationWrapperScreenController.find;
+  final _AuthenticationScreenController _controller =
+      _AuthenticationScreenController.find;
 
   @override
   Widget build(BuildContext context) {
@@ -327,8 +332,8 @@ class _OtherLoginWay extends StatelessWidget {
 
 class _GoogleSignIn extends StatelessWidget {
   _GoogleSignIn();
-  final AuthenticationWrapperScreenController _controller =
-      AuthenticationWrapperScreenController.find;
+  final _AuthenticationScreenController _controller =
+      _AuthenticationScreenController.find;
 
   @override
   Widget build(BuildContext context) {

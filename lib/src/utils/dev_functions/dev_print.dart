@@ -27,18 +27,20 @@ void devPrint(
 
     int count = 80;
     try {
-      count = stdout.terminalColumns;
+      count = stdout.terminalColumns; // Getting terminal width
+      count = count - heading.length - 2;
     } catch (_) {}
     String coloredString = '$log$bold$underline${color?.code ?? ''}';
 
-    String lingDash = '-' * count + heading;
-    if (stringList.length > 1) print('$coloredString$lingDash');
+    String lingDash = '-' * count;
+    bool printDash = stringList.length > 1 || heading.isNotEmpty;
+    if (printDash) print('$coloredString$lingDash $heading');
 
     for (final String string in stringList) {
       print('$coloredString$string$reset');
     }
 
-    if (stringList.length > 1) print('$coloredString$lingDash');
+    if (printDash) print('$coloredString$lingDash');
   } catch (e) {
     print('$log${DevPrintColorEnum.red.code}${e.toString()}$reset');
   }

@@ -25,6 +25,11 @@ class _HttpErrorHandler {
       showSnackBar(title: 'Error', message: resultError.errorMessage);
     }
 
+    devPrint(
+      'HttpErrorHandler: ${resultError.errorMessage}(${resultError.errorCode})',
+      color: DevPrintColorEnum.red,
+    );
+
     return resultError;
   }
 }

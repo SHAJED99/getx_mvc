@@ -15,11 +15,15 @@ part 'http_error_handler.dart';
 
 /// Base class for HTTP repositories
 ///
-/// [client] for HTTP requests
+/// [httpClient] for HTTP requests
 ///
 /// [errorHandler] for handling HTTP errors
 abstract class HttpRepository {
-  final AuthController authController = AuthController.find;
-  final _HttpClient client = _HttpClient();
+  /// Base class for HTTP repositories
+  ///
+  /// Add `import 'package:dio/dio.dart' as dio;`
+  final _HttpClient httpClient = _HttpClient();
+
+  /// Error handler for HTTP requests
   final _HttpErrorHandler errorHandler = _HttpErrorHandler();
 }

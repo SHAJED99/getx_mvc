@@ -2,6 +2,7 @@ part of 'http_repository.dart';
 
 const Duration _apiCallTimeOut = Duration(seconds: 30);
 const DevPrintColorEnum _color = DevPrintColorEnum.magenta;
+const String _tab = '\t';
 
 /// Http Client for calling API
 class _HttpClient {
@@ -28,6 +29,11 @@ class _HttpClient {
                 response.headers.map['set-cookie']![0].split(';')[0].trim();
           }
           return handler.next(response);
+        },
+        onError: (DioException error, ErrorInterceptorHandler handler) {
+          devPrint(
+            '''Error: ${error.message}''',
+          );
         },
       ),
     );
@@ -71,7 +77,7 @@ class _HttpClient {
 
     String sendLink = (customBaseLink ?? _baseLink) + url;
     devPrint(
-      '''Url: $sendLink''',
+      '''Url:$_tab$sendLink''',
       heading: 'HttpCall: Get - Requesting',
       color: _color,
     );
@@ -82,8 +88,8 @@ class _HttpClient {
     );
     devPrint(
       '''Url: $sendLink (${response.statusCode})
-Header: ${response.headers}
-Data: ${response.data}''',
+Header:$_tab${response.headers}
+Data:$_tab${response.data}''',
       heading: 'HttpCall: Get - Response',
       color: _color,
     );
@@ -102,7 +108,7 @@ Data: ${response.data}''',
     String? customBaseLink,
     bool doEncode = true,
   }) async {
-    if (kDebugMode) showToast(title: null, message: url);
+    // if (kDebugMode) showToast(title: null, message: url);
 
     final Options options = Options(headers: <String, String>{});
 
@@ -133,8 +139,8 @@ Data: ${response.data}''',
 
     String sendLink = (customBaseLink ?? _baseLink) + url;
     devPrint(
-      '''Url: $sendLink
-Body: ${processedBody.toString()}''',
+      '''Url:$_tab$sendLink
+Body:$_tab${processedBody.toString()}''',
       heading: 'HttpCall: POST - Requesting',
       color: _color,
     );
@@ -146,9 +152,9 @@ Body: ${processedBody.toString()}''',
     );
     devPrint(
       '''Url: $sendLink (${response.statusCode})
-Header: ${response.headers}
-Body: ${processedBody.toString()}
-Data: ${response.data}''',
+Header:$_tab${response.headers}
+Body: $_tab${processedBody.toString()}
+Data:$_tab${response.data}''',
       heading: 'HttpCall: POST - Response',
       color: _color,
     );

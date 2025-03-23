@@ -1,19 +1,14 @@
-import 'package:get/get.dart';
+part of '../../../views/screens/splash_screen/splash_screen.dart';
 
-import '../../../components.dart';
-import '../../views/screens/authentication/authentication_wrapper_screen.dart';
-import '../data_controllers/app_data_controller.dart';
-import '../data_controllers/auth_controller.dart';
-
-/// SplashScreenController class
-class SplashScreenController extends GetxController {
-  /// Get SplashScreenController GetxController
-  static SplashScreenController get find => Get.find();
+/// [_SplashScreenController] class
+class _SplashScreenController extends GetxController {
+  /// Get [_SplashScreenController] GetxController
+  // static _SplashScreenController get find => Get.find();
 
   bool __isSplashScreenShown = false;
   bool __isInitialized = false;
 
-  /// SplashScreenController init function
+  /// [_SplashScreenController] init function
   /// This function will be called from splash screen
   /// This will initialize all the necessary controllers
   Future<void> init() async {
