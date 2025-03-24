@@ -15,9 +15,14 @@ class _AuthenticationScreenRepository extends HttpRepository {
         final dio.Response<Map<String, dynamic>> response =
             await httpClient.post(
           url,
-          body: <String, String>{
-            'userName': email,
-            'password': password,
+          // doEncode: false,
+          body: <String, dynamic>{
+            'username': 'emilys',
+            'password': 'emilyspass',
+            'expiresInMins': 30,
+            // 'username': email,
+            // 'password': password,
+            // 'expiresInMins': 30,
           },
         );
 

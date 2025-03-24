@@ -82,7 +82,9 @@ enum HTTPErrorEnum {
     errorMessage: 'API limit exceeded. Try later.',
     errorCode: 429,
   ),
-  dataCorruption(errorMessage: 'Received data corrupted.'),
+  dataCorruption(
+    errorMessage: 'Received data corrupted.',
+  ),
   unsupportedMediaType(
     errorMessage: 'Content type not supported.',
     errorCode: 415,

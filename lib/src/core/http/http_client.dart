@@ -20,9 +20,11 @@ class _HttpClient {
 
     // Add interceptor to catch cookies
     _dio.interceptors.add(
-      InterceptorsWrapper(
-        onResponse:
-            (Response<dynamic> response, ResponseInterceptorHandler handler) {
+      dio.InterceptorsWrapper(
+        onResponse: (
+          dio.Response<dynamic> response,
+          dio.ResponseInterceptorHandler handler,
+        ) {
           if (response.headers.map['set-cookie'] != null &&
               response.headers.map['set-cookie']!.isNotEmpty) {
             _cookie =
@@ -30,16 +32,11 @@ class _HttpClient {
           }
           return handler.next(response);
         },
-        onError: (DioException error, ErrorInterceptorHandler handler) {
-          devPrint(
-            '''Error: ${error.message}''',
-          );
-        },
       ),
     );
   }
   final AuthController _controller = AuthController.find;
-  final Dio _dio = Dio();
+  final dio.Dio _dio = dio.Dio();
 
   String _cookie = '';
 
@@ -47,7 +44,7 @@ class _HttpClient {
   String get _baseLink => Environment.apiBaseUrl;
 
   /// Get request
-  Future<Response<Map<String, dynamic>>> get(
+  Future<dio.Response<Map<String, dynamic>>> get(
     String url, {
     String? token,
     Map<String, String>? headerParameter,
@@ -57,7 +54,7 @@ class _HttpClient {
   }) async {
     if (kDebugMode) showToast(title: null, message: url);
 
-    final Options options = Options(headers: <String, String>{});
+    final dio.Options options = dio.Options(headers: <String, String>{});
 
     if (headerParameter != null) {
       options.headers?.addAll(headerParameter);
@@ -82,7 +79,7 @@ class _HttpClient {
       color: _color,
     );
 
-    final Response<Map<String, dynamic>> response = await _dio.get(
+    final dio.Response<Map<String, dynamic>> response = await _dio.get(
       sendLink,
       options: options,
     );
@@ -97,7 +94,7 @@ Data:$_tab${response.data}''',
   }
 
   /// Post request
-  Future<Response<Map<String, dynamic>>> post(
+  Future<dio.Response<Map<String, dynamic>>> post(
     String url, {
     bool isAuthServer = false,
     String? token,
@@ -110,7 +107,7 @@ Data:$_tab${response.data}''',
   }) async {
     // if (kDebugMode) showToast(title: null, message: url);
 
-    final Options options = Options(headers: <String, String>{});
+    final dio.Options options = dio.Options(headers: <String, String>{});
 
     if (headerParameter != null) {
       options.headers?.addAll(headerParameter);
@@ -145,7 +142,7 @@ Body:$_tab${processedBody.toString()}''',
       color: _color,
     );
 
-    final Response<Map<String, dynamic>> response = await _dio.post(
+    final dio.Response<Map<String, dynamic>> response = await _dio.post(
       sendLink,
       data: processedBody,
       options: options,

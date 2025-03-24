@@ -67,7 +67,7 @@ Future<void> showSnackBar({
         Text(
           message,
           style: textTheme.bodyMedium?.copyWith(
-            color: titleColor ?? textColor,
+            color: messageColor ?? textColor,
           ),
         ),
         if (child != null)
@@ -88,7 +88,7 @@ Future<void> showSnackBar({
         c.complete();
       }
     },
-    colorText: messageColor ?? textColor,
+    colorText: titleColor ?? textColor,
     maxWidth: defaultMaxBoxWidth,
     backgroundColor: backgroundColor ?? containerColor,
     mainButton: mainButton,

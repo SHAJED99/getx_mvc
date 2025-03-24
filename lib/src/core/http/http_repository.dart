@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../controllers/data_controllers/auth_controller.dart';
 import '../../utils/dev_functions/dev_print.dart';
