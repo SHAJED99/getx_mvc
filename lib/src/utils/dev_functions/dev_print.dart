@@ -4,8 +4,35 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-/// Development Print. It will only print in debug mode.
-/// With color and style.
+/// Prints debug messages in a styled and colored format.
+///
+/// This method only logs messages in **debug mode** (`kDebugMode == true`).
+/// It supports terminal coloring, optional bold/underline styling,
+/// and adds headers and section dividers when needed.
+///
+/// ---
+///
+/// ### Parameters:
+///
+/// - [message] *(dynamic)*: The message or object to be logged.
+/// - [heading] *(String)*: Optional heading for the log block.
+/// - [color] *(DevPrintColorEnum?)*: Optional ANSI color for the message text.
+/// - [isBold] *(bool)*: Whether to print the text in bold.
+/// - [isUnderline] *(bool)*: Whether to underline the message text.
+///
+/// ---
+///
+/// ### Example:
+/// ```dart
+/// devPrint('Hello from debug log!',
+///   heading: 'DEBUG',
+///   color: DevPrintColorEnum.green,
+///   isBold: true,
+/// );
+/// ```
+///
+/// ---
+/// Only use this for debugging — does nothing in release/profile mode.
 void devPrint(
   dynamic message, {
   String heading = '',

@@ -67,6 +67,7 @@ class _MyApp extends StatelessWidget {
         ),
         home: child!,
         builder: (BuildContext context, Widget? child) {
+          // return child!;
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: AppTheme.setSafeAreaColor(context),
             child: child!,
