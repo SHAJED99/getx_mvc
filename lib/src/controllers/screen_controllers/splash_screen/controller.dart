@@ -37,6 +37,8 @@ class _SplashScreenController extends GetxController {
     // ---------------------------------------------------- Route to next screen
     if (AuthController.find.user.value == null) {
       Get.offAll(() => const AuthenticationWrapperScreen());
+    } else {
+      Get.offAll(() => const DashboardWrapperScreen());
     }
   }
 }

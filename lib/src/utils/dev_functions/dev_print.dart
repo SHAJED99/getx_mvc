@@ -15,11 +15,11 @@ void devPrint(
 }) {
   if (!kDebugMode) return;
 
-  String reset = '\x1B[0m';
+  String resetColor = '\x1B[0m';
   String bold = isBold ? '\x1B[1m' : '';
   String underline = isUnderline ? '\x1B[4m' : '';
 
-  String log = '${DevPrintColorEnum.white.code}[Log] - $reset';
+  String log = '${DevPrintColorEnum.white.code}[Log] - $resetColor';
 
   try {
     String message_ = message.toString().trim();
@@ -34,15 +34,19 @@ void devPrint(
 
     String lingDash = '-' * count;
     bool printDash = stringList.length > 1 || heading.isNotEmpty;
-    if (printDash) print('$coloredString$lingDash $heading');
+    if (printDash) {
+      print(
+        '''$coloredString$lingDash ${DevPrintColorEnum.yellow.code}$heading$resetColor''',
+      );
+    }
 
     for (final String string in stringList) {
-      print('$coloredString$string$reset');
+      print('$coloredString$string$resetColor');
     }
 
     if (printDash) print('$coloredString$lingDash');
   } catch (e) {
-    print('$log${DevPrintColorEnum.red.code}${e.toString()}$reset');
+    print('$log${DevPrintColorEnum.red.code}${e.toString()}$resetColor');
   }
 }
 

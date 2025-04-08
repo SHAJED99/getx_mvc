@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:getx_mvc/src/utils/dev_functions/dev_print.dart';
-import 'package:getx_mvc/src/views/screens/splash_screen/splash_screen.dart';
 
 import '../../models/data/app_models/user_model.dart';
+import '../../utils/dev_functions/dev_print.dart';
+import '../../views/screens/splash_screen/splash_screen.dart';
 
 /// Handles user authentication status. This will not use to call Login API or
 /// similar types of operations
@@ -55,6 +55,11 @@ class AuthController extends GetxController {
   }
 
   _userTask() async {
+    devPrint(
+      'UserData: ${user.value?.toString()}',
+      heading: 'AuthController',
+      color: DevPrintColorEnum.black,
+    );
     if (user.value == null) {
       await _storage.remove(_localeKey);
       if (_isInit) Get.offAll(() => const SplashScreen());

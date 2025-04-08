@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:on_process_button_widget/on_process_button_widget.dart';
 
+import '../../controllers/data_controllers/auth_controller.dart';
 import '../../core/localization/app_translations.dart';
 import '../../core/theme/app_theme.dart';
+import '../../models/data/app_models/user_model.dart';
 import 'dev_button.dart';
 
 const double _defaultPadding = 24.0;
@@ -109,6 +112,15 @@ class _DevScaffoldState extends State<DevScaffold> {
                 ),
 
               //! ----------------------------------------- Additional functions
+              Obx(() {
+                final UserModel? user = AuthController.find.user.value;
+                if (user == null) return const SizedBox();
+
+                return _onPress(
+                  'Logout',
+                  () => AuthController.find.user.value = null,
+                );
+              }),
             ],
           ),
         ),

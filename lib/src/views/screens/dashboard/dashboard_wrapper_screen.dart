@@ -1,4 +1,6 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+
+import '../../../utils/dev_functions/dev_scaffold.dart';
 
 /// Dashboard Wrapper Screen
 class DashboardWrapperScreen extends StatelessWidget {
@@ -7,6 +9,8 @@ class DashboardWrapperScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const DevScaffold(
+      child: Scaffold(),
+    );
   }
 }

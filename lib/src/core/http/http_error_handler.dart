@@ -9,6 +9,12 @@ class _HttpErrorHandler {
   }) async {
     HTTPErrorEnum? error;
     String? message;
+
+    //? Uncomment this snippet to block the errorHandler when tracking Error
+    // await function();
+    // return HTTPErrorEnum.done;
+    //? ------------------------------------------------------------------------
+
     try {
       await function();
       return HTTPErrorEnum.done;

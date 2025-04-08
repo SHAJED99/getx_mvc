@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_mvc/src/controllers/data_controllers/app_data_controller.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../../components.dart';
+import '../../../controllers/data_controllers/app_data_controller.dart';
 import '../../../controllers/data_controllers/auth_controller.dart';
 import '../../../core/localization/app_translations.dart';
 import '../../../utils/dev_functions/dev_scaffold.dart';
@@ -11,6 +11,7 @@ import '../../widgets/loading_bar.dart';
 import '../../widgets/svg.dart';
 import '../../widgets/text.dart';
 import '../authentication/authentication_wrapper_screen.dart';
+import '../dashboard/dashboard_wrapper_screen.dart';
 
 part '../../../controllers/screen_controllers/splash_screen/controller.dart';
 
@@ -31,6 +32,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _controller.init();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Get.delete<_SplashScreenController>();
   }
 
   @override

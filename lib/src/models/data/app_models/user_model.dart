@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../../../utils/functions/string_conversion.dart';
+
 /// User Information for authentication
 class UserModel {
   /// Convert from Json
@@ -10,7 +12,7 @@ class UserModel {
   /// Convert from Map
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      token: map['token'] as String,
+      token: map['accessToken'].toString(),
     );
   }
 
@@ -44,7 +46,7 @@ class UserModel {
   @override
   String toString() => '''
 UserModel(
-  token: $token
+  token: ${token.customCutString(replaceString: '...')},
 )
 ''';
 

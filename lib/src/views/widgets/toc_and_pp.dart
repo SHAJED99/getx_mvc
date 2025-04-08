@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:getx_mvc/src/core/localization/app_translations.dart';
 
 import '../../../components.dart';
+import '../../core/localization/app_translations.dart';
 import '../../utils/functions/string_conversion.dart';
 
 /// A custom widget that displays a checkbox along with text for

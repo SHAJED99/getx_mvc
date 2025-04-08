@@ -3,17 +3,16 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_mvc/src/models/data/app_models/user_model.dart';
 import 'package:on_process_button_widget/on_process_button_widget.dart';
 import 'package:on_text_input_widget/on_text_input_widget.dart';
 import 'package:dio/dio.dart' as dio;
 
-import 'package:getx_mvc/src/core/http/http_repository.dart';
-
 import '../../../../components.dart';
 import '../../../controllers/data_controllers/auth_controller.dart';
+import '../../../core/http/http_repository.dart';
 import '../../../core/localization/app_translations.dart';
 import '../../../core/use_case/use_case.dart';
+import '../../../models/data/app_models/user_model.dart';
 import '../../../utils/dev_functions/dev_auto_fill_button.dart';
 import '../../../utils/dev_functions/dev_scaffold.dart';
 import '../../../utils/functions/form_validation.dart';
@@ -25,6 +24,7 @@ import '../../widgets/size.dart';
 import '../../widgets/svg.dart';
 import '../../widgets/text.dart';
 import '../../widgets/toc_and_pp.dart';
+import '../dashboard/dashboard_wrapper_screen.dart';
 
 part '../../../controllers/screen_controllers/authentication/controller.dart';
 part '../../../controllers/screen_controllers/authentication/repository.dart';

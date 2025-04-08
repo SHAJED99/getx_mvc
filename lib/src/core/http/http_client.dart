@@ -73,23 +73,25 @@ class _HttpClient {
     }
 
     String sendLink = (customBaseLink ?? _baseLink) + url;
-    devPrint(
-      '''Url:$_tab$sendLink''',
-      heading: 'HttpCall: Get - Requesting',
-      color: _color,
+
+    printReport(
+      isGet: true,
+      isResponse: false,
+      sendLink: sendLink,
     );
 
     final dio.Response<Map<String, dynamic>> response = await _dio.get(
       sendLink,
       options: options,
     );
-    devPrint(
-      '''Url: $sendLink (${response.statusCode})
-Header:$_tab${response.headers}
-Data:$_tab${response.data}''',
-      heading: 'HttpCall: Get - Response',
-      color: _color,
+
+    printReport(
+      isGet: true,
+      isResponse: true,
+      sendLink: sendLink,
+      response: response,
     );
+
     return response;
   }
 
@@ -135,11 +137,11 @@ Data:$_tab${response.data}''',
     }
 
     String sendLink = (customBaseLink ?? _baseLink) + url;
-    devPrint(
-      '''Url:$_tab$sendLink
-Body:$_tab${processedBody.toString()}''',
-      heading: 'HttpCall: POST - Requesting',
-      color: _color,
+    printReport(
+      isGet: false,
+      isResponse: false,
+      sendLink: sendLink,
+      processedBody: processedBody,
     );
 
     final dio.Response<Map<String, dynamic>> response = await _dio.post(
@@ -147,14 +149,59 @@ Body:$_tab${processedBody.toString()}''',
       data: processedBody,
       options: options,
     );
-    devPrint(
-      '''Url: $sendLink (${response.statusCode})
-Header:$_tab${response.headers}
-Body: $_tab${processedBody.toString()}
-Data:$_tab${response.data}''',
-      heading: 'HttpCall: POST - Response',
-      color: _color,
+
+    printReport(
+      isGet: false,
+      isResponse: true,
+      sendLink: sendLink,
+      processedBody: processedBody,
+      response: response,
     );
+
     return response;
+  }
+
+  String getHeader(dio.Response<Map<String, dynamic>>? response) {
+    String header = '';
+    // for (final MapEntry<String, List<String>> entry in headers.map.entries) {
+    //   header += '${entry.key}: ${entry.value.join(', ')}\n';
+    // }
+    return header;
+  }
+
+  void printReport({
+    required String sendLink,
+    dio.Response<Map<String, dynamic>>? response,
+    String? processedBody,
+    required bool isGet,
+    required bool isResponse,
+  }) {
+    //! URL
+    String printString = 'Url: $_tab$sendLink';
+
+    //! Response
+    if (response != null) {
+      printString = '''$printString (${response.statusCode})
+Header: $_tab${getHeader(response)}
+''';
+    }
+
+    //! Body
+    if (processedBody != null) {
+      printString = '''$printString
+Body: $_tab$processedBody''';
+    }
+
+    //! Data
+    if (response != null) {
+      printString = '''$printString
+Data: $_tab${response.data.toString()}''';
+    }
+
+    String heading = 'HttpCall:';
+    heading = '$heading ${isGet ? 'GET' : 'POST'}';
+    heading = '$heading - ${isResponse ? 'Response' : 'Requesting'}';
+
+    devPrint(printString, heading: heading, color: _color);
   }
 }

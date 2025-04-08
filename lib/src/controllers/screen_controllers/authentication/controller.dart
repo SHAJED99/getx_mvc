@@ -75,17 +75,12 @@ class _AuthenticationScreenController extends GetxController {
       return;
     }
 
-    final AuthController _authController = AuthController.find;
+    final AuthController authController = AuthController.find;
 
-    // final user = FirebaseAuth.instance.currentUser;
-    // if (user == null) return;
+    final UserModel? user = authController.user.value;
+    if (user == null) return;
 
-    // if (user.emailVerified) {
-    //   Get.offAll(() => const DashboardWrapperScreen());
-    // }
-    //else {
-    //   Get.offAll(() => const AccountVerificationScreen());
-    // }
+    Get.offAll(() => const DashboardWrapperScreen());
   }
 
   Future<bool> googleSignIn() async {
