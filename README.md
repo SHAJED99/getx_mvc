@@ -161,9 +161,9 @@ flutter:
 
 There are some necessary utils for development purpose in `lib/src/utils/dev_functions` folder. That helps to make development more easier.
 
-### devPrint
+### devPrint()
 
-DevPrint use to print something in development mode.
+`devPrint` use to print something in development mode.
 
 - `heading`: Heading for the log block.
 - `color`: Color for the message text.
@@ -177,7 +177,23 @@ devPrint(
 );
 ```
 
-###
+### DevAutoFillButton
+
+`DevAutoFillButton` is a button set that only shows in development mode, allowing developers to quickly autofill forms with predefined data during testing. For example, you can use it to populate login fields with test credentials, saving time and effort during repetitive tasks.
+
+Check `lib/src/views/screens/authentication/authentication_wrapper_screen.dart` for example.
+
+<img src="readme_files/devAutoFillButton.png" alt="setSafeAreaColor" height="400"/>
+
+### DevScaffold
+
+`DevScaffold` is a custom scaffold widget that only shows in development mode. It provides extra functions such as changing Language, Theme Mode.
+
+Wrap the `Scaffold` with the `DevScaffold` widget to utilize these features. For example, you can use it to log API responses directly on the screen for quick debugging.
+
+Check API Documentation for more details and `lib/src/views/screens/authentication/authentication_wrapper_screen.dart` for example.
+
+<img src="readme_files/devScaffold.png" alt="setSafeAreaColor" height="400"/>
 
 ## Theme and Color
 
@@ -205,6 +221,7 @@ Theme.of(context).colorScheme.primary // For primary color
 #### AppTheme
 
 - `setSafeAreaColor(BuildContext context)`: This makes the top notification bar transparent, ensuring a seamless visual experience by blending the app's UI with the system's status bar. It is particularly useful in apps with immersive designs or custom themes where maintaining a consistent color scheme across the entire screen enhances the user experience.
+
   <img src="readme_files/setSafeAreaColor.png" alt="setSafeAreaColor" height="400"/>
 
 - Always initialize the theme in the main function to ensure the app's UI adheres to the desired theme settings from the start. Failing to do so may result in inconsistent or default styling being applied before the theme is properly set.
@@ -217,4 +234,107 @@ void main() async {
 }
 ```
 
-## Localization
+## Localization: Adding and Managing Multiple Languages
+
+This template supports Localization.
+To add language follow those steps below:
+
+1. Go to this file `lib/src/core/localization/app_translations.dart`.
+2. Add language in `supportedLocales` variable
+
+```
+static const List<Locale> supportedLocales = <Locale>[
+  Locale('en'),
+  ...
+];
+```
+
+3. Also add language in `keys`.
+
+```
+Map<String, Map<String, String>> get keys {
+  return <String, Map<String, String>>{
+    'en': _generateTranslations((TextEnum e) => e._en),
+    ...
+  };
+}
+```
+
+4. Go to this file `lib/src/core/localization/string_enum.dart`.
+5. Add the `TextEnum` for the desired language by defining the text keys and their corresponding translations. For example, to add a new text key for English, update the `TextEnum` as follows:
+
+```
+enum TextEnum {
+  iHaveReadAndApproved(
+    en: 'I have read and approved',
+    bn: 'আমি পড়েছি এবং অনুমোদিত করেছি',
+  ),
+
+  const TextEnum({required String en, String? bn})
+  : _en = en,
+    _bn = bn ?? en;
+
+  // TODO: Add language
+  final String _en;
+  final String _bn;
+}
+```
+
+6. To use the Text according to App Language, use `TextEnum.iHaveReadAndApproved.tr`.
+   The `.tr` is a GetX extension method that retrieves the localized string for the current app language,
+   making it easy to display text in the user's preferred language.
+7. Initialize the local in main
+
+```
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
+  Locale locale = await AppTranslations.init; // Initialize translations
+  runApp(MyApp(locale: locale)); // Pass the locale to the app
+}
+```
+
+8. Add local and translations inside the GetMaterialApp.
+
+`fallbackLocale` specifies the default locale to use if the user's locale is not supported. This ensures the app always has a valid language setting.
+
+```
+GetMaterialApp(
+  locale: locale,
+  fallbackLocale: AppTranslations.supportedLocales.first,
+  translations: AppTranslations(),
+  ...
+)
+```
+
+## Environment(.env)
+
+`.env` file contains secret information like keys, passwords, API host link. To use .env file follow those steps bellow:
+
+1. Create a `.env` file in root directory in the project.
+2. Inside the env file write information according to the project needs.
+
+```
+API_BASE_URL="https://dummyjson.com/"
+API_VERSION="v1/"
+```
+
+3. Add .env file in `pubspec.yaml` file assets.
+
+```
+flutter:
+  ...
+  assets:
+    - .env
+    ...
+```
+
+4. Go to `lib/src/core/environment/environment.dart` file and edit the class according to env variables. Must use Static keyword to access those values from anywhere of the app.
+5. Initialize the Environment in main.
+
+```
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
+  await Environment.init; // Initialize environment
+  runApp(MyApp());
+}
+```

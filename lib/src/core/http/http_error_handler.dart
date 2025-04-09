@@ -55,6 +55,11 @@ Data:\t$message''',
       color: DevPrintColorEnum.red,
     );
 
+    if (resultError == HTTPErrorEnum.unauthorized) {
+      //! Logging out the user
+      AuthController.find.user.value = null;
+    }
+
     return resultError;
   }
 }

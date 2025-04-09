@@ -61,7 +61,7 @@ class AuthController extends GetxController {
       color: DevPrintColorEnum.black,
     );
     if (user.value == null) {
-      await _storage.remove(_localeKey);
+      await _storage.erase();
       if (_isInit) Get.offAll(() => const SplashScreen());
     } else {
       await _storage.write(_localeKey, user.value!.toJson());

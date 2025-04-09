@@ -110,6 +110,7 @@ enum TextEnum {
       : _en = en,
         _bn = bn ?? en;
 
+  // TODO: Add language
   final String _en;
   final String _bn;
 
