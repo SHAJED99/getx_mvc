@@ -20,18 +20,19 @@ class _HttpErrorHandler {
       await function();
       return HTTPErrorEnum.done;
     } on dio.DioException catch (e) {
-      error = _getErrorType(e.response?.statusCode);
-      message = e.response?.data.toString();
+      error = _getErrorType(
+        statusCode: e.response?.statusCode,
+        dioException: e,
+      );
+      message = e.toString();
     } on TypeError catch (e) {
       error = HTTPErrorEnum.parseError;
       message = e.toString();
     } catch (e) {
-      if (e is dio.Response) {
-        error = _getErrorType(e.statusCode);
-        message = e.data.toString();
-      }
-
+      if (e is dio.Response) error = _getErrorType(statusCode: e.statusCode);
       if (e is String) serverMessage = e;
+
+      message = e.toString();
     }
 
     final HTTPErrorEnum resultError = error ?? HTTPErrorEnum.unknown;
@@ -60,13 +61,30 @@ Data:\t$message''',
     return resultError;
   }
 
-  HTTPErrorEnum? _getErrorType(int? statusCode) {
+  HTTPErrorEnum? _getErrorType({
+    int? statusCode,
+    dio.DioException? dioException,
+  }) {
+    HTTPErrorEnum? dio = __getDioException(dioException);
+    if (dio != null) return dio;
+
     if (statusCode == null) return null;
     for (final HTTPErrorEnum error in HTTPErrorEnum.values) {
       if (error.errorCode == statusCode) {
         return error;
       }
     }
+    return null;
+  }
+
+  HTTPErrorEnum? __getDioException(dio.DioException? e) {
+    // DioException
+    if (e == null) return null;
+
+    if (e.type == dio.DioExceptionType.connectionError) {
+      return HTTPErrorEnum.socketException;
+    }
+
     return null;
   }
 }
