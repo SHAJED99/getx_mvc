@@ -48,6 +48,7 @@ Future<void> showSnackBar({
   Color? titleColor,
   Color? messageColor,
   Color? backgroundColor,
+  SnackBarType? type,
 }) async {
   final Completer<void> c = completer ?? Completer<void>();
   if (Get.isSnackbarOpen) Get.closeAllSnackbars();
@@ -55,8 +56,34 @@ Future<void> showSnackBar({
   final ThemeData theme = Get.theme;
   final ColorScheme colorScheme = theme.colorScheme;
   final TextTheme textTheme = theme.textTheme;
-  final Color textColor = colorScheme.onSecondary;
-  final Color containerColor = colorScheme.secondary.withAlpha(200);
+  final Color textColor = colorScheme.onSurface;
+  Color containerColor = colorScheme.surface.withAlpha(200);
+
+  IconData? iconData;
+  Color? iconColor;
+
+  if (type != null) {
+    if (type == SnackBarType.success) {
+      iconData = Icons.check_circle_rounded;
+      iconColor = colorScheme.primary;
+    }
+    if (type == SnackBarType.error) {
+      iconData = Icons.cancel_rounded;
+      iconColor = colorScheme.error;
+    }
+    if (type == SnackBarType.info) {
+      iconData = Icons.info_rounded;
+      iconColor = colorScheme.primaryContainer;
+    }
+    if (type == SnackBarType.warning) {
+      iconData = Icons.warning_rounded;
+      iconColor = colorScheme.onErrorContainer;
+    }
+  }
+
+  if (iconColor != null) {
+    containerColor = _blendColors(containerColor, iconColor, 0.3);
+  }
 
   Get.snackbar(
     title,
@@ -77,7 +104,12 @@ Future<void> showSnackBar({
           ),
       ],
     ),
-    icon: icon,
+    icon: icon ??
+        Icon(
+          iconData,
+          color: iconColor ?? textColor,
+          size: defaultPadding,
+        ),
     borderRadius: defaultPadding / 2,
     padding: padding ?? EdgeInsets.all(defaultPadding),
     margin: margin ?? EdgeInsets.all(defaultPadding),
@@ -110,11 +142,7 @@ Future<void> showSnackBar({
 /// - [title]: The title of the toast.
 /// - [message]: The message content of the toast.
 void showToast({String? title, required String message}) {
-  bool isAndroid = (Platform.isAndroid || kIsWeb);
-  bool isIOS = Platform.isIOS;
-  bool isWeb = kIsWeb;
-
-  if (isAndroid || isIOS || isWeb) {
+  if (Platform.isAndroid || Platform.isIOS || kIsWeb) {
     Fluttertoast.showToast(
       msg: "${title == null ? "" : "$title:"} $message",
       toastLength: Toast.LENGTH_LONG,
@@ -174,4 +202,33 @@ Future<bool> showConfirmationMessage({
   }
 
   return resultCompleter.future;
+}
+
+/// Snack bar Status
+enum SnackBarType {
+  /// For success
+  success,
+
+  /// For error
+  error,
+
+  /// For info
+  info,
+
+  /// For warning
+  warning,
+}
+
+/// Blends two colors with a specified weight
+///
+/// [color1] - The first color to blend
+/// [color2] - The second color to blend
+/// [weight] - A value between 0.0 and 1.0 that determines the blend ratio
+///            0.0 means 100% of color1, 1.0 means 100% of color2
+Color _blendColors(Color color1, Color color2, double weight) {
+  // Ensure weight is between 0.0 and 1.0
+  weight = weight.clamp(0.0, 1.0);
+
+  // Use Color.lerp for linear interpolation between the two colors
+  return Color.lerp(color1, color2, weight)!;
 }

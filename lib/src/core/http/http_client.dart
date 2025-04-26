@@ -11,7 +11,7 @@ class _HttpClient {
     // Initialize default headers
     _dio.options.headers = <String, String>{
       'Content-Type': 'application/json',
-      'Accept': '/',
+      'Accept': '*/*',
     };
 
     // Set default timeout
@@ -19,6 +19,7 @@ class _HttpClient {
     _dio.options.receiveTimeout = _apiCallTimeOut;
 
     // Add interceptor to catch cookies
+    _dio.options.validateStatus = (int? status) => true;
     _dio.interceptors.add(
       dio.InterceptorsWrapper(
         onResponse: (
@@ -40,7 +41,12 @@ class _HttpClient {
 
   String _cookie = '';
 
-  String get _getToken => '''Bearer ${_controller.user.value?.token ?? ""}''';
+  String get _getToken {
+    String token = _controller.user.value?.token ?? '';
+    if (token.isEmpty) return '';
+    return 'Bearer $token';
+  }
+
   String get _baseLink => Environment.apiBaseUrl;
 
   /// Get request
@@ -74,7 +80,7 @@ class _HttpClient {
 
     String sendLink = (customBaseLink ?? _baseLink) + url;
 
-    printReport(
+    _printReport(
       isGet: true,
       isResponse: false,
       sendLink: sendLink,
@@ -85,7 +91,7 @@ class _HttpClient {
       options: options,
     );
 
-    printReport(
+    _printReport(
       isGet: true,
       isResponse: true,
       sendLink: sendLink,
@@ -106,8 +112,9 @@ class _HttpClient {
     Object? body,
     String? customBaseLink,
     bool doEncode = true,
+    bool isNavService = false,
   }) async {
-    // if (kDebugMode) showToast(title: null, message: url);
+    if (kDebugMode) showToast(title: null, message: url);
 
     final dio.Options options = dio.Options(headers: <String, String>{});
 
@@ -137,7 +144,7 @@ class _HttpClient {
     }
 
     String sendLink = (customBaseLink ?? _baseLink) + url;
-    printReport(
+    _printReport(
       isGet: false,
       isResponse: false,
       sendLink: sendLink,
@@ -150,7 +157,7 @@ class _HttpClient {
       options: options,
     );
 
-    printReport(
+    _printReport(
       isGet: false,
       isResponse: true,
       sendLink: sendLink,
@@ -161,15 +168,18 @@ class _HttpClient {
     return response;
   }
 
-  String getHeader(dio.Response<Map<String, dynamic>>? response) {
+  String _getHeader(dio.Response<Map<String, dynamic>>? response) {
+    if (response == null) return '';
+
+    final dio.Headers headers = response.headers;
     String header = '';
-    // for (final MapEntry<String, List<String>> entry in headers.map.entries) {
-    //   header += '${entry.key}: ${entry.value.join(', ')}\n';
-    // }
+    for (final MapEntry<String, List<String>> entry in headers.map.entries) {
+      header += '${entry.key}: ${entry.value}\t';
+    }
     return header;
   }
 
-  void printReport({
+  void _printReport({
     required String sendLink,
     dio.Response<Map<String, dynamic>>? response,
     String? processedBody,
@@ -182,18 +192,19 @@ class _HttpClient {
     //! Response
     if (response != null) {
       printString = '''$printString (${response.statusCode})
-Header: $_tab${getHeader(response)}
-''';
+Header: $_tab${_getHeader(response)}''';
     }
 
     //! Body
-    if (processedBody != null) {
+    if (processedBody != null && processedBody != '{}') {
       printString = '''$printString
 Body: $_tab$processedBody''';
     }
 
     //! Data
-    if (response != null) {
+    if (response != null &&
+        response.data != null &&
+        response.data!.isNotEmpty) {
       printString = '''$printString
 Data: $_tab${response.data.toString()}''';
     }

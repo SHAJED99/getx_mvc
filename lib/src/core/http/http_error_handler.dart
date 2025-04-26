@@ -8,6 +8,7 @@ class _HttpErrorHandler {
     required Future<void> Function() function,
   }) async {
     HTTPErrorEnum? error;
+    String serverMessage = '';
     String? message;
 
     //? Uncomment this snippet to block the errorHandler when tracking Error
@@ -29,22 +30,18 @@ class _HttpErrorHandler {
         error = _getErrorType(e.statusCode);
         message = e.data.toString();
       }
+
+      if (e is String) serverMessage = e;
     }
 
     final HTTPErrorEnum resultError = error ?? HTTPErrorEnum.unknown;
 
     if (showError) {
-      final ColorScheme colorScheme = Get.theme.colorScheme;
       showSnackBar(
         title: 'Error',
-        message: resultError.errorMessage,
-        titleColor: colorScheme.onError,
-        messageColor: colorScheme.onError,
-        backgroundColor: colorScheme.error,
-        icon: Icon(
-          Icons.error,
-          color: colorScheme.onError,
-        ),
+        message:
+            serverMessage.isNotEmpty ? serverMessage : resultError.errorMessage,
+        type: SnackBarType.error,
       );
     }
 
@@ -62,14 +59,14 @@ Data:\t$message''',
 
     return resultError;
   }
-}
 
-HTTPErrorEnum? _getErrorType(int? statusCode) {
-  if (statusCode == null) return null;
-  for (final HTTPErrorEnum error in HTTPErrorEnum.values) {
-    if (error.errorCode == statusCode) {
-      return error;
+  HTTPErrorEnum? _getErrorType(int? statusCode) {
+    if (statusCode == null) return null;
+    for (final HTTPErrorEnum error in HTTPErrorEnum.values) {
+      if (error.errorCode == statusCode) {
+        return error;
+      }
     }
+    return null;
   }
-  return null;
 }
