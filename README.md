@@ -79,25 +79,25 @@ This is a detailed folder structure. In short, we may focus on the simplified st
  ┣ 📂assets
  ┣ 📂src
  ┃ ┣ 📂controllers
- ┃ ┃ ┣ 📂data_controllers
+ ┃ ┃ ┣ 📂data_controllers // ----------------------------- App Data Will be here
  ┃ ┃ ┃ ┣ 📜app_data_controller.dart
  ┃ ┃ ┃ ┗ 📜auth_controller.dart
- ┃ ┃ ┗ 📂screen_controllers
+ ┃ ┃ ┗ 📂screen_controllers // ------------- Screen functionalities will be here
  ┃ ┣ 📂core
- ┃ ┃ ┣ 📂environment
- ┃ ┃ ┣ 📂http
- ┃ ┃ ┣ 📂localization
- ┃ ┃ ┣ 📂theme
- ┃ ┃ ┗ 📂use_case
+ ┃ ┃ ┣ 📂environment // --------------------------------------- Handle .ENV file
+ ┃ ┃ ┣ 📂http // ----------------------------------------------- Handle API call
+ ┃ ┃ ┣ 📂localization // ----------------------------------- Handle App Language
+ ┃ ┃ ┣ 📂theme // --------------------------------------------- Handle App theme
+ ┃ ┃ ┗ 📂use_case // -- Abstract class, Handles USE CASE from Clean Architecture
  ┃ ┣ 📂models
- ┃ ┃ ┗ 📂data
+ ┃ ┃ ┗ 📂data // ----------------------------- App Models and Enums will be here
  ┃ ┃   ┣ 📂api_models
  ┃ ┃   ┗ 📂app_models
- ┃ ┣ 📂utils
- ┃ ┗ 📂views
+ ┃ ┣ 📂utils // ------------------------ App Utils (Form validation, Print, ...)
+ ┃ ┗ 📂views // --------------------------------------------------------- App UI
  ┃   ┣ 📂screens
  ┃   ┗ 📂widgets
- ┣ 📜components.dart
+ ┣ 📜components.dart // -------------------------- App Components (Default Size)
  ┗ 📜main.dart
 ```
 
@@ -338,3 +338,7 @@ void main() async {
   runApp(MyApp());
 }
 ```
+
+## Creating New Screen and Connecting Controller and UseCase
+
+### Screen
