@@ -341,4 +341,8 @@ void main() async {
 
 ## Creating New Screen and Connecting Controller and UseCase
 
+It is very important to manage class and variable cleverly Because if a class or variable is defined publicly it can be made harder to find the actual class or variable. This can make the development environment harder for the developer. So always make the class and variables private for any particular screen. To access the private class or variable from that screen use `part` and `part of`.
+
 ### Screen
+
+All screen will be stateful screen as they will initiate the Controller. And all classes and variables those are connected to this screen will be imported in this screen with `part`.
