@@ -124,7 +124,7 @@ This is a detailed folder structure. In short, we may focus on the simplified st
    3. analysis_options.yaml
 3. Add these dependencies in `pubspec.yaml`. Keeping dependencies updated ensures better security, performance, and access to new features. To check for the latest versions, run `pub outdated` in the terminal.
 
-```
+```yml
 on_process_button_widget: ^2.0.6
 on_text_input_widget: ^0.0.7
 flutter_dotenv: ^5.2.1
@@ -143,7 +143,7 @@ package_info_plus: ^8.3.0
 
 4. Add the following asset files and folders to the `pubspec.yaml` file under the `flutter` section to ensure they are properly included in your project:
 
-```
+```yml
 flutter:
   ...
 
@@ -169,7 +169,7 @@ There are some necessary utils for development purpose in `lib/src/utils/dev_fun
 - `color`: Color for the message text.
   For more read API documentation.
 
-```
+```dart
 devPrint(
     'Print Something',
     heading: 'HttpErrorHandler',
@@ -212,7 +212,7 @@ To use it:
 5. Copy the `light ColorScheme` from the `lightScheme()` function and `dark ColorScheme` from the `darkScheme()` function, which can be found in the exported Dart file (usually named `theme.dart` or similar). Paste them into the `lib/src/core/theme/colors.dart` file in your project.
 6. To use color:
 
-```
+```dart
 Theme.of(context).colorScheme.primary // For primary color
 ```
 
@@ -222,11 +222,37 @@ Theme.of(context).colorScheme.primary // For primary color
 
 - `setSafeAreaColor(BuildContext context)`: This makes the top notification bar transparent, ensuring a seamless visual experience by blending the app's UI with the system's status bar. It is particularly useful in apps with immersive designs or custom themes where maintaining a consistent color scheme across the entire screen enhances the user experience.
 
-  <img src="readme_files/setSafeAreaColor.png" alt="setSafeAreaColor" height="400"/>
+  <div align="center" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;">
+    <div style="flex: 1; min-width: 250px; max-width: 400px; text-align: center;">
+      <img src="readme_files/1.png" alt="Home Screen" style="width: 100%; border-radius: 8px;"/>
+      <p><strong>Light Theme</strong></p>
+    </div>
+
+    <div style="flex: 1; min-width: 250px; max-width: 400px; text-align: center;">
+      <img src="readme_files/2.png" alt="Profile Screen" style="width: 100%; border-radius: 8px;"/>
+      <p><strong>Dark Theme</strong></p>
+    </div>
+  </div>
+
+  Without `setSafeAreaColor` the top navigation icon is not visible.
+
+  <div align="center" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;">
+    <div style="flex: 1; min-width: 250px; max-width: 400px; text-align: center;">
+      <img src="readme_files/3.png" alt="Home Screen" style="width: 100%; border-radius: 8px;"/>
+      <p><strong>Light Theme</strong></p>
+    </div>
+
+    <div style="flex: 1; min-width: 250px; max-width: 400px; text-align: center;">
+      <img src="readme_files/4.png" alt="Profile Screen" style="width: 100%; border-radius: 8px;"/>
+      <p><strong>Dark Theme</strong></p>
+    </div>
+  </div>
+
+  Using `setSafeAreaColor` the top navigation icon is visible.
 
 - Always initialize the theme in the main function to ensure the app's UI adheres to the desired theme settings from the start. Failing to do so may result in inconsistent or default styling being applied before the theme is properly set.
 
-```
+```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
   ThemeMode themeMode = await AppTheme.init; // Initialize theme
@@ -242,7 +268,7 @@ To add language follow those steps below:
 1. Go to this file `lib/src/core/localization/app_translations.dart`.
 2. Add language in `supportedLocales` variable
 
-```
+```dart
 static const List<Locale> supportedLocales = <Locale>[
   Locale('en'),
   ...
@@ -251,7 +277,7 @@ static const List<Locale> supportedLocales = <Locale>[
 
 3. Also add language in `keys`.
 
-```
+```dart
 Map<String, Map<String, String>> get keys {
   return <String, Map<String, String>>{
     'en': _generateTranslations((TextEnum e) => e._en),
@@ -263,7 +289,7 @@ Map<String, Map<String, String>> get keys {
 4. Go to this file `lib/src/core/localization/string_enum.dart`.
 5. Add the `TextEnum` for the desired language by defining the text keys and their corresponding translations. For example, to add a new text key for English, update the `TextEnum` as follows:
 
-```
+```dart
 enum TextEnum {
   iHaveReadAndApproved(
     en: 'I have read and approved',
@@ -285,7 +311,7 @@ enum TextEnum {
    making it easy to display text in the user's preferred language.
 7. Initialize the local in main
 
-```
+```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
   Locale locale = await AppTranslations.init; // Initialize translations
@@ -297,7 +323,7 @@ void main() async {
 
 `fallbackLocale` specifies the default locale to use if the user's locale is not supported. This ensures the app always has a valid language setting.
 
-```
+```dart
 GetMaterialApp(
   locale: locale,
   fallbackLocale: AppTranslations.supportedLocales.first,
@@ -313,14 +339,14 @@ GetMaterialApp(
 1. Create a `.env` file in root directory in the project.
 2. Inside the env file write information according to the project needs.
 
-```
+```env
 API_BASE_URL="https://dummyjson.com/"
 API_VERSION="v1/"
 ```
 
 3. Add .env file in `pubspec.yaml` file assets.
 
-```
+```yml
 flutter:
   ...
   assets:
@@ -331,7 +357,7 @@ flutter:
 4. Go to `lib/src/core/environment/environment.dart` file and edit the class according to env variables. Must use Static keyword to access those values from anywhere of the app.
 5. Initialize the Environment in main.
 
-```
+```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
   await Environment.init; // Initialize environment
@@ -339,10 +365,46 @@ void main() async {
 }
 ```
 
-## Creating New Screen and Connecting Controller and UseCase
+## Creating New Screen and Connecting Controller and Use Case
 
 It is very important to manage class and variable cleverly Because if a class or variable is defined publicly it can be made harder to find the actual class or variable. This can make the development environment harder for the developer. So always make the class and variables private for any particular screen. To access the private class or variable from that screen use `part` and `part of`.
 
 ### Screen
 
-All screen will be stateful screen as they will initiate the Controller. And all classes and variables those are connected to this screen will be imported in this screen with `part`.
+All screen will be stateful screen as they will initiate the Controller. And all classes and variables those are connected to this screen will be imported in this screen with `part`. For example follow the `lib\src\views\screens\authentication\authentication_wrapper_screen.dart`.
+
+```dart
+part '../../../controllers/screen_controllers/authentication/controller.dart'; //  Screen Controller
+part '../../../controllers/screen_controllers/authentication/repository.dart'; // ------- Repository
+part '../../../controllers/screen_controllers/authentication/use_case.dart'; // ----------- Use Case
+
+/// AuthenticationWrapperScreen
+class AuthenticationWrapperScreen extends StatefulWidget {
+  /// AuthenticationWrapperScreen Constructor
+  const AuthenticationWrapperScreen({super.key});
+
+  @override
+  State<AuthenticationWrapperScreen> createState() =>
+      _AuthenticationWrapperScreenState();
+}
+```
+
+### Screen Controller
+
+Screen controller will handle all the Screen (UI) functionalities and connect API or other controllers. To create a Screen controller we need to extend GetxController, and pair it with the screen using `part of`
+
+```dart
+part of '../../../views/screens/authentication/authentication_wrapper_screen.dart';
+
+/// Handles authentication screens
+class _AuthenticationScreenController extends GetxController {
+  /// Get [_AuthenticationScreenController] GetxController
+  static _AuthenticationScreenController get find => Get.find();
+
+  // ...
+}
+```
+
+### Data Handling (Use case, Repository)
+
+This
