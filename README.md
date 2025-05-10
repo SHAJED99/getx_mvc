@@ -199,7 +199,7 @@ Check API Documentation for more details and `lib/src/views/screens/authenticati
 
 This template supports theming, allowing you to easily customize colors and styles. To change the theme, edit the files in the `lib/src/core/theme` folder. For example, you can modify the app's primary color by updating the `primaryColor` in `lib/src/core/theme/colors.dart`. After making changes, test the theme by running the app and navigating to screens that use the updated styles to ensure consistency and correctness.
 
-#### Material Theme Builder
+### Material Theme Builder
 
 The Material Theme Builder is a tool that helps developers create custom color themes tailored to their app's design requirements.
 
@@ -218,7 +218,7 @@ Theme.of(context).colorScheme.primary // For primary color
 
 7. To edit Text go to `lib/src/core/theme/text_styles.dart` file and change the font name.
 
-#### AppTheme
+### AppTheme
 
 - `setSafeAreaColor(BuildContext context)`: This makes the top notification bar transparent, ensuring a seamless visual experience by blending the app's UI with the system's status bar. It is particularly useful in apps with immersive designs or custom themes where maintaining a consistent color scheme across the entire screen enhances the user experience.
 
@@ -407,4 +407,83 @@ class _AuthenticationScreenController extends GetxController {
 
 ### Data Handling (Use case, Repository)
 
-This
+#### Use case
+
+To Connect API or database a UseCase needs to be added in the Screen Controller that is extended from `BaseUseCase`. This UseCase class handles all data-related tasks (Fetching data from/to API or database).
+Here `saveData` and `readData` functions can be found.
+
+Also, import this UseCase in the Screen using `part` in the Screen file and `part of` in the UseCase file.
+
+```dart
+part of '../../../views/screens/authentication/authentication_wrapper_screen.dart';
+
+/// Handles authentication screens repository
+class _AuthenticationScreenUseCase extends BaseUseCase {
+  final _AuthenticationScreenRepository _repository =
+      _AuthenticationScreenRepository();
+
+  // ...
+}
+```
+
+For more, see the example `lib/src/controllers/screen_controllers/authentication/use_case.dart`.
+
+#### Repository
+
+To fetch data from/to API a Repository is needed to be added in the UseCase that is extended from
+`HttpRepository`. Where `httpClient` and `errorHandler` will be found.
+
+1. `httpClient` will be used to get API functionalities.
+2. `errorHandler` will be used to handle errors. All API calling functions will be passed through the `errorHandler`.
+
+Also, import this Repository in the Screen using `part` in the Screen file and `part of` in the Repository file.
+
+```dart
+part of '../../../views/screens/authentication/authentication_wrapper_screen.dart';
+
+class _AuthenticationScreenRepository extends HttpRepository {
+  /// [login]
+  Future<UserModel?> login() async {
+    UserModel? result;
+
+    // TODO: Simulate a network request
+    await errorHandler.errorHandler( // --------------------------- errorHandler
+      function: () async {
+        final String url = 'auth/login';
+        final dio.Response<Map<String, dynamic>> response =
+            await httpClient.post( // ------------------------------ Calling API
+          url,
+          body: <String, dynamic>{
+            'username': 'emilys',
+            'password': 'emilyspass',
+            'expiresInMins': 30,
+          },
+        );
+
+        if (response.statusCode != 200 || response.data == null) {
+          throw response; // ------------ Throw the response if any error occurs
+        }
+
+        result = UserModel.fromMap(response.data!);
+      },
+    );
+
+    return result;
+  }
+}
+```
+
+For more, see the example `lib/src/controllers/screen_controllers/authentication/repository.dart`.
+
+## Good Coding (analysis_options.yaml)
+
+Better code means better development experience. So `flutter_lints` can be used and rules are added in the `analysis_options.yaml` file.
+
+See the example in `analysis_options.yaml`
+
+1. API Documentation must be added to the Public classes and variables.
+2. Must add type annotation.
+3. Must use const if needed.
+4. Always check Spelling errors.
+5. Keep lines in 80 characters.
+6. Use meaningful names for the variables.

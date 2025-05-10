@@ -1,5 +1,6 @@
 name: getx_mvc
-description: 'A new Flutter project.'
+description: 'A Flutter project template.'
+# flutter: "3.27.4"
 
 publish_to: 'none'
 
