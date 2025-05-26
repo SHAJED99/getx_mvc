@@ -222,13 +222,13 @@ Theme.of(context).colorScheme.primary // For primary color
 
 - `setSafeAreaColor(BuildContext context)`: This makes the top notification bar transparent, ensuring a seamless visual experience by blending the app's UI with the system's status bar. It is particularly useful in apps with immersive designs or custom themes where maintaining a consistent color scheme across the entire screen enhances the user experience.
 
-  <div align="center" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;">
-    <div style="flex: 1; min-width: 250px; max-width: 400px; text-align: center;">
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;">
+    <div style="flex: 1; min-width: 250px; max-width: 300px; text-align: center;">
       <img src="readme_files/1.png" alt="Home Screen" style="width: 100%; border-radius: 8px;"/>
       <p><strong>Light Theme</strong></p>
     </div>
 
-    <div style="flex: 1; min-width: 250px; max-width: 400px; text-align: center;">
+    <div style="flex: 1; min-width: 250px; max-width: 300px; text-align: center;">
       <img src="readme_files/2.png" alt="Profile Screen" style="width: 100%; border-radius: 8px;"/>
       <p><strong>Dark Theme</strong></p>
     </div>
@@ -236,13 +236,13 @@ Theme.of(context).colorScheme.primary // For primary color
 
   Without `setSafeAreaColor` the top navigation icon is not visible.
 
-  <div align="center" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;">
-    <div style="flex: 1; min-width: 250px; max-width: 400px; text-align: center;">
+  <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 12px;">
+    <div style="flex: 1; min-width: 250px; max-width: 300px; text-align: center;">
       <img src="readme_files/3.png" alt="Home Screen" style="width: 100%; border-radius: 8px;"/>
       <p><strong>Light Theme</strong></p>
     </div>
 
-    <div style="flex: 1; min-width: 250px; max-width: 400px; text-align: center;">
+    <div style="flex: 1; min-width: 250px; max-width: 300px; text-align: center;">
       <img src="readme_files/4.png" alt="Profile Screen" style="width: 100%; border-radius: 8px;"/>
       <p><strong>Dark Theme</strong></p>
     </div>
