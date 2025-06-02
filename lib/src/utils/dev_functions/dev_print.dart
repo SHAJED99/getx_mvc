@@ -1,38 +1,54 @@
 // ignore_for_file: avoid_print
 
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 
-/// Prints debug messages in a styled and colored format.
+/// Prints a styled debug log in the console, optionally pretty-printing JSON.
 ///
-/// This method only logs messages in **debug mode** (`kDebugMode == true`).
-/// It supports terminal coloring, optional bold/underline styling,
-/// and adds headers and section dividers when needed.
+/// This method only logs in **debug mode** (`kDebugMode == true`). It supports:
+/// - Colored output using ANSI codes
+/// - Optional bold and underline styling
+/// - Pretty-printed output for `Map`, `List`, and valid JSON strings
+/// - Optional heading with divider lines
 ///
 /// ---
 ///
 /// ### Parameters:
 ///
-/// - [message] *(dynamic)*: The message or object to be logged.
-/// - [heading] *(String)*: Optional heading for the log block.
-/// - [color] *(DevPrintColorEnum?)*: Optional ANSI color for the message text.
-/// - [isBold] *(bool)*: Whether to print the text in bold.
-/// - [isUnderline] *(bool)*: Whether to underline the message text.
+/// - [message] *(dynamic)*: Any value to be logged. Maps, Lists, or valid JSON
+/// strings are printed as formatted JSON.
+/// - [heading] *(String)*: Optional title for the log section.
+/// - [color] *(DevPrintColorEnum?)*: ANSI color for the log output.
+/// - [isBold] *(bool)*: If `true`, applies bold formatting.
+/// - [isUnderline] *(bool)*: If `true`, underlines the output.
 ///
 /// ---
 ///
 /// ### Example:
+///
 /// ```dart
-/// devPrint('Hello from debug log!',
-///   heading: 'DEBUG',
+/// devPrint(
+///   {'name': 'Panna', 'role': 'Flutter Dev'},
+///   heading: '👨‍💻 Profile',
 ///   color: DevPrintColorEnum.green,
 ///   isBold: true,
 /// );
 /// ```
 ///
 /// ---
-/// Only use this for debugging — does nothing in release/profile mode.
+///
+/// ### Output:
+/// ```
+/// [Log] - ----------------------------------------------------------------
+/// 👨‍💻 Profile
+/// [Log] - {
+/// [Log] -   "name": "Panna",
+/// [Log] -   "role": "Flutter Dev"
+/// [Log] - }
+/// [Log] - ----------------------------------------------------------------
+/// ```
 void devPrint(
   dynamic message, {
   String heading = '',
@@ -42,38 +58,60 @@ void devPrint(
 }) {
   if (!kDebugMode) return;
 
-  String resetColor = '\x1B[0m';
-  String bold = isBold ? '\x1B[1m' : '';
-  String underline = isUnderline ? '\x1B[4m' : '';
-
-  String log = '${DevPrintColorEnum.white.code}[Log] - $resetColor';
+  const String resetColor = '\x1B[0m';
+  final String bold = isBold ? '\x1B[1m' : '';
+  final String underline = isUnderline ? '\x1B[4m' : '';
+  final String logPrefix = '${DevPrintColorEnum.white.code}[Log] - $resetColor';
 
   try {
-    String message_ = message.toString().trim();
-    List<String> stringList = message_.split('\n');
+    // Try to format message as pretty JSON
+    String message_;
+    if (message is Map || message is List) {
+      message_ = const JsonEncoder.withIndent('  ').convert(message);
+    } else {
+      try {
+        final dynamic parsed = json.decode(message.toString());
+        message_ = const JsonEncoder.withIndent('  ').convert(parsed);
+      } catch (_) {
+        message_ = message.toString().trim();
+      }
+    }
 
+    final List<String> stringList = message_.split('\n');
+
+    // Get terminal width or default
     int count = 80;
     try {
-      count = stdout.terminalColumns; // Getting terminal width
-      count = count - heading.length - 2;
+      count = stdout.terminalColumns;
     } catch (_) {}
-    String coloredString = '$log$bold$underline${color?.code ?? ''}';
 
-    String lingDash = '-' * count;
-    bool printDash = stringList.length > 1 || heading.isNotEmpty;
+    final String coloredPrefix =
+        '$logPrefix$bold$underline${color?.code ?? ''}';
+    String dividerLine = '';
+    final bool printDash = stringList.length > 1 || heading.isNotEmpty;
+
+    // Print heading if applicable
     if (printDash) {
+      int length = count - heading.length - 1;
+      if (length < 0) length = 0;
+      dividerLine = '-' * length;
       print(
-        '''$coloredString$lingDash ${DevPrintColorEnum.yellow.code}$heading$resetColor''',
+        '''$coloredPrefix$dividerLine ${DevPrintColorEnum.yellow.code}$heading$resetColor''',
       );
     }
 
-    for (final String string in stringList) {
-      print('$coloredString$string$resetColor');
+    // Print message lines
+    for (final String line in stringList) {
+      print('$coloredPrefix$line$resetColor');
     }
 
-    if (printDash) print('$coloredString$lingDash');
+    // Print closing line
+    if (printDash) {
+      dividerLine = '-' * count;
+      print('$coloredPrefix$dividerLine$resetColor');
+    }
   } catch (e) {
-    print('$log${DevPrintColorEnum.red.code}${e.toString()}$resetColor');
+    print('$logPrefix${DevPrintColorEnum.red.code}Error: $e$resetColor');
   }
 }
 
