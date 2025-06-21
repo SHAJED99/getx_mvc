@@ -116,8 +116,6 @@ class DevScaffold extends StatefulWidget {
 }
 
 class _DevScaffoldState extends State<DevScaffold> {
-  final GlobalKey<ScaffoldState> _key = GlobalKey();
-
   Widget _onPress(String text, Function() onTap) {
     return OnProcessButtonWidget(
       margin: const EdgeInsets.symmetric(vertical: _defaultPadding / 4),
@@ -131,22 +129,26 @@ class _DevScaffoldState extends State<DevScaffold> {
     if (!kDebugMode) return widget.child;
 
     return Scaffold(
-      key: _key,
       body: widget.child,
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
           if (kIsWeb || Platform.isWindows || Platform.isLinux)
-            _DevButton(
-              onTap: () async {
-                _key.currentState?.openEndDrawer();
-                return;
+            Builder(
+              builder: (BuildContext innerContext) {
+                return _DevButton(
+                  onTap: () async {
+                    Scaffold.of(innerContext).openEndDrawer();
+
+                    return;
+                  },
+                  child: Icon(
+                    Icons.developer_mode,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+                );
               },
-              child: Icon(
-                Icons.developer_mode,
-                color: Theme.of(context).colorScheme.onPrimary,
-              ),
             ),
           if (widget.floatingActionButton != null) widget.floatingActionButton!,
         ],
