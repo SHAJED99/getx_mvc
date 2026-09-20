@@ -18,11 +18,16 @@ class Environment {
   static late final String apiBaseUrl;
 
   static void _fromMap(Map<String, dynamic> map) {
-    try {
-      apiBaseUrl = map['API_BASE_URL'];
-    } catch (e) {
-      devPrint('EnvironmentModel: $e', color: DevPrintColorEnum.red);
+    final String? baseUrl = map['API_BASE_URL'] as String?;
+
+    if (baseUrl == null || baseUrl.isEmpty) {
+      const String message = 'EnvironmentModel: API_BASE_URL is missing '
+          'from the .env file.';
+      devPrint(message, color: DevPrintColorEnum.red);
+      throw Exception(message);
     }
+
+    apiBaseUrl = baseUrl;
   }
 
   static String get __message => '''

@@ -10,10 +10,18 @@ class UserModel {
       );
 
   /// Convert from Map
+  ///
+  /// Throws a [FormatException] when the token is absent, so that a malformed
+  /// API response or a session stored by an older build is rejected instead of
+  /// silently producing the literal string `'null'` as a token.
   factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      token: map['accessToken'].toString(),
-    );
+    final Object? token = map['accessToken'];
+
+    if (token is! String || token.isEmpty) {
+      throw const FormatException('UserModel: accessToken is missing.');
+    }
+
+    return UserModel(token: token);
   }
 
   /// UserModel Constructor
@@ -36,7 +44,7 @@ class UserModel {
   /// Convert to Map
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'token': token,
+      'accessToken': token,
     };
   }
 

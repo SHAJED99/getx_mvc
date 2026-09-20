@@ -38,6 +38,10 @@ class AuthController extends GetxController {
         color: DevPrintColorEnum.red,
       );
       user.value = null;
+      // Cleared here rather than through the user listener, which is attached
+      // only after this read so that init cannot trigger a redundant Get.offAll
+      // while the splash screen is still initializing.
+      await _storage.remove(_localeKey);
     }
   }
 
@@ -61,7 +65,9 @@ class AuthController extends GetxController {
       color: DevPrintColorEnum.black,
     );
     if (user.value == null) {
-      await _storage.erase();
+      // Only the session key is removed. The default GetStorage box is shared
+      // with AppTheme, AppTranslations and BaseUseCase.
+      await _storage.remove(_localeKey);
       if (_isInit) Get.offAll(() => const SplashScreen());
     } else {
       await _storage.write(_localeKey, user.value!.toJson());

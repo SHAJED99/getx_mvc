@@ -43,12 +43,10 @@ extension StringExtensions on String {
   /// Checks if the string matches the [searchValue] after trimming and removing
   /// spaces.
   bool customSearchMatch(String searchValue) {
-    bool r = searchValue
-        .trim()
+    return trim()
         .replaceAll(' ', '')
         .toLowerCase()
-        .contains(trim().replaceAll(' ', '').toLowerCase());
-    return r;
+        .contains(searchValue.trim().replaceAll(' ', '').toLowerCase());
   }
 
   /// Copies the string to the clipboard.

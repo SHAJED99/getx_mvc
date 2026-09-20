@@ -46,7 +46,7 @@ class CustomLinearProgressBar extends StatelessWidget {
     this.size,
     this.show = true,
     this.value,
-  }) : _opacity = 10;
+  });
 
   /// Custom Linear Progress Bar Small
   const CustomLinearProgressBar.small({
@@ -55,7 +55,7 @@ class CustomLinearProgressBar extends StatelessWidget {
     this.size = 2,
     this.show = true,
     this.value,
-  }) : _opacity = 1;
+  });
 
   /// Custom Linear Progress Bar Color
   final Color? color;
@@ -68,8 +68,6 @@ class CustomLinearProgressBar extends StatelessWidget {
 
   /// Custom Linear Progress Bar Value
   final double? value;
-
-  final int _opacity;
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +82,7 @@ class CustomLinearProgressBar extends StatelessWidget {
           ? LinearProgressIndicator(
               value: value == null ? null : value! / 100,
               backgroundColor: Colors.transparent,
-              color: color ??
-                  Theme.of(context).colorScheme.primary.withAlpha(_opacity),
+              color: color ?? Theme.of(context).colorScheme.primary,
             )
           : null,
     );

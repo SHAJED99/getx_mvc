@@ -28,6 +28,9 @@ class _HttpErrorHandler {
     } on TypeError catch (e) {
       error = HTTPErrorEnum.parseError;
       message = e.toString();
+    } on FormatException catch (e) {
+      error = HTTPErrorEnum.parseError;
+      message = e.toString();
     } catch (e) {
       if (e is dio.Response) error = _getErrorType(statusCode: e.statusCode);
       if (e is String) serverMessage = e;
@@ -83,6 +86,12 @@ Data:\t$message''',
 
     if (e.type == dio.DioExceptionType.connectionError) {
       return HTTPErrorEnum.socketException;
+    }
+
+    if (e.type == dio.DioExceptionType.connectionTimeout ||
+        e.type == dio.DioExceptionType.sendTimeout ||
+        e.type == dio.DioExceptionType.receiveTimeout) {
+      return HTTPErrorEnum.requestTimeOut;
     }
 
     return null;

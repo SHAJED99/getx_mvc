@@ -3,7 +3,7 @@ const int _defaultNameMinLength = 8;
 const int _defaultPhoneNumberLength = 11;
 const int _defaultAddressLength = 10;
 const String _defaultEmailValidationPattern =
-    r'^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$';
+    r'^[\w+-]+(\.[\w+-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,7}$';
 
 /// Validates an email address.
 ///
@@ -87,7 +87,7 @@ String? passwordValidation(String? password, {bool showDetails = true}) {
 String? nameValidation(String? name, {bool showDetails = true}) {
   if (name == null || name.trim().isEmpty) return 'Name can not be empty';
 
-  if (name.length < _defaultNameMinLength) {
+  if (name.trim().length < _defaultNameMinLength) {
     return '''Name must have at least ($_defaultNameMinLength) characters in length''';
   }
 

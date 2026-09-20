@@ -52,7 +52,7 @@ class _AuthenticationScreenRepository extends HttpRepository {
             await httpClient.post(
           url,
           body: <String, String>{
-            'userName': email,
+            'username': email,
             'password': password,
           },
         );
