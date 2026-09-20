@@ -1,238 +1,263 @@
 # 🏗️ GetX MVC Flutter Template
 
-> A production-ready Flutter boilerplate using GetX pattern with Clean Architecture — the fastest way to start a new Flutter project.
+> A Flutter starter built on GetX, with batteries included: HTTP + error handling, enum-based
+> localization, persisted theming, and a shared widget kit.
 
-![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white)
-![Dart](https://img.shields.io/badge/Dart-0175C2?style=flat-square&logo=dart&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-3.27.4-02569B?style=flat-square&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-3.6-0175C2?style=flat-square&logo=dart&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
-![GetX](https://img.shields.io/badge/GetX-3.0.0-blue?style=flat-square)
+![GetX](https://img.shields.io/badge/GetX-4.7-blue?style=flat-square)
 
-🚀 **Start your next Flutter project in seconds, not hours.** This template follows GetX MVC architecture with clean separation of concerns, route management, dependency injection, and production-best practices baked in.
-
----
-
-## ✨ Features
-
-- 🏗️ **Clean Architecture** — Presentation / Domain / Data layers properly separated
-- 🎮 **GetX MVC Pattern** — Controllers, Bindings, Views with reactive state management
-- 🧭 **Route Management** — Centralized routing with `GetMaterialApp` and named routes
-- 💉 **Dependency Injection** — Built-in `Get.put()` / `Get.lazyPut()` / `Get.find()` DI
-- 🔄 **Reactive State** — `.obs` observables with `Obx()` widgets for UI updates
-- 🌐 **API Integration Ready** — Base API client with interceptors and error handling
-- 🔐 **Auth Guard** — Authentication middleware protecting routes
-- 🎨 **Theming** — Light/dark theme switching with `Get.isDarkMode`
-- 📝 **Forms & Validation** — Input validation patterns with real-time feedback
-- 📱 **Platform Ready** — Android, iOS, Web, macOS, Windows, Linux
+Clone it, point `.env` at your API, and start building screens. The cross-cutting infrastructure —
+networking, error taxonomy, translations, theme persistence, debug tooling — is already wired.
 
 ---
 
-## 📦 Installation
+## ✨ What's inside
+
+- 🧩 **Feature-as-a-library pattern** — each screen bundles its controller, use case, and repository
+  into one Dart library via `part`, keeping every feature class private and non-leaky
+- 🌐 **HTTP layer** — Dio wrapper with automatic bearer-token injection, request/response logging,
+  30s timeouts, and cookie capture
+- 🚦 **Centralized error handling** — every failure maps onto a typed `HTTPErrorEnum`, surfaces a
+  snackbar, and auto-logs-out on 401
+- 🌍 **Enum-based localization** — translations are enum values, not string keys, so a typo is a
+  compile error. Ships `en` + `bn`
+- 🎨 **Material 3 theming** — full light/dark `ColorScheme`s, Google Fonts, persisted `ThemeMode`
+- 💾 **Persistence** — `GetStorage` for session, theme, and locale, restored before first frame
+- 🧪 **Debug tooling** — in-app drawer for switching theme/locale, form auto-fill buttons, and a
+  colorized logger. All stripped from release builds
+- 📱 **Platform ready** — Android, iOS, Web, macOS, Windows, Linux
+
+---
+
+## 📦 Getting started
+
+This project pins its Flutter version in `.fvmrc`. Using [FVM](https://fvm.app/) is strongly
+recommended — a newer SDK will rewrite `pubspec.lock` with a Dart constraint the pinned toolchain
+can't satisfy.
 
 ```bash
-# Clone the template
+# Clone
 git clone https://github.com/SHAJED99/getx_mvc.git your_project_name
-
-# Navigate to project
 cd your_project_name
 
-# Get dependencies
-flutter pub get
+# Use the pinned SDK (3.27.4)
+fvm install
+fvm flutter pub get
 
-# Run it
-flutter run
+# Configure the API base URL — required, the app throws on startup without it
+echo "API_BASE_URL=https://your.api/" > .env
+
+# Run
+fvm flutter run
+```
+
+Useful commands:
+
+```bash
+fvm flutter analyze      # strict lint set, see analysis_options.yaml
+fvm flutter test
+dart format lib test
 ```
 
 ---
 
-## 🗂️ Project Structure
+## 🗂️ Project structure
 
 ```
 lib/
-├── main.dart                    # App entry point
-├── app/
-│   ├── app.dart                 # GetMaterialApp configuration
-│   ├── routes/
-│   │   ├── app_pages.dart       # Route definitions
-│   │   └── app_routes.dart      # Route name constants
-│   ├── bindings/
-│   │   ├── initial_binding.dart # Global DI bindings
-│   │   └── home_binding.dart    # Feature-specific bindings
-│   ├── theme/
-│   │   ├── app_theme.dart       # Light + dark theme data
-│   │   └── app_colors.dart      # Color palette
-│   └── core/
-│       ├── constants/
-│       │   ├── api_constants.dart
-│       │   └── app_constants.dart
-│       ├── utils/
-│       │   ├── validators.dart   # Input validators
-│       │   └── helpers.dart      # Utility functions
-│       └── widgets/
-│           ├── loading_widget.dart
-│           └── error_widget.dart
-├── data/
-│   ├── models/
-│   │   └── user_model.dart      # Data models
-│   ├── providers/
-│   │   └── api_provider.dart    # HTTP client (Dio/Http)
-│   └── repositories/
-│       └── user_repository.dart # Data layer
-├── domain/
-│   └── entities/
-│       └── user.dart            # Domain entities
-└── presentation/
-    ├── home/
-    │   ├── controllers/
-    │   │   └── home_controller.dart
-    │   ├── bindings/
-    │   │   └── home_binding.dart
-    │   └── views/
-    │       ├── home_view.dart
-    │       └── widgets/
-    │           └── some_widget.dart
-    └── auth/
-        ├── controllers/
-        │   └── auth_controller.dart
-        ├── bindings/
-        │   └── auth_binding.dart
-        └── views/
-            ├── login_view.dart
-            └── register_view.dart
+├── components.dart                 # app-wide constants: spacing, durations, app name, URLs
+├── main.dart                       # bootstrap, GetMaterialApp, global bindings
+└── src/
+    ├── controllers/
+    │   ├── data_controllers/       # global singletons: AuthController, AppDataController
+    │   └── screen_controllers/     # per-feature private controller/use_case/repository
+    │       ├── authentication/
+    │       └── splash_screen/
+    ├── core/
+    │   ├── environment/            # .env loading
+    │   ├── http/                   # HttpRepository, Dio client, error handler, error enum
+    │   ├── localization/           # AppTranslations + TextEnum
+    │   ├── theme/                  # AppTheme + colors + text styles
+    │   └── use_case/               # BaseUseCase (GetStorage helpers)
+    ├── models/data/app_models/     # UserModel
+    ├── utils/
+    │   ├── dev_functions/          # devPrint, DevScaffold
+    │   ├── functions/              # validators, String extensions
+    │   └── user_message/           # snackbar & toast
+    └── views/
+        ├── screens/                # splash, authentication, dashboard
+        └── widgets/                # Custom* widget kit
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🧱 Architecture
 
-### 1. Define a Route
-```dart
-// app_routes.dart
-abstract class AppRoutes {
-  static const home = '/home';
-  static const login = '/login';
-  static const profile = '/profile/:userId';
-}
+The organizing idea: **one feature = one Dart library**. The screen file is the library head and
+declares its controller, use case, and repository as `part` files.
+
+```
+views/screens/authentication/authentication_wrapper_screen.dart   ← owns all imports
+├── part → controllers/screen_controllers/authentication/controller.dart
+├── part → controllers/screen_controllers/authentication/repository.dart
+└── part → controllers/screen_controllers/authentication/use_case.dart
 ```
 
-### 2. Create a Controller
-```dart
-class HomeController extends GetxController {
-  final isLoading = false.obs;
-  final userName = ''.obs;
+Because Dart privacy is per-library, every class inside can be `_`-private — so
+`_AuthenticationScreenController` is genuinely unreachable from any other feature. Deleting a
+feature is four files and cannot leave dangling references.
 
-  @override
-  void onInit() {
-    super.onInit();
-    fetchUser();
-  }
+Flow: **View → Controller → UseCase → Repository → Model**
 
-  Future<void> fetchUser() async {
-    isLoading.value = true;
-    try {
-      final repo = UserRepository();
-      final user = await repo.getUser();
-      userName.value = user.name;
-    } finally {
-      isLoading.value = false;
-    }
-  }
-}
-```
+| layer | responsibility |
+|---|---|
+| View | widgets; wraps its `Scaffold` in `DevScaffold` |
+| Controller | UI state (`.obs`, form keys, text controllers); `Get.put` in `State`, `Get.delete` in `dispose` |
+| UseCase | business rules; writes shared state such as `AuthController.user` |
+| Repository | extends `HttpRepository`; performs the API call, returns a model or `null` |
 
-### 3. Create a View
-```dart
-class HomeView extends GetView<HomeController> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        }
-        return Center(child: Text('Hello, ${controller.userName.value}'));
-      }),
-    );
-  }
-}
-```
+Two things to know before writing code:
 
-### 4. Register the Binding
-```dart
-abstract class HomeBindings extends Bindings {
-  @override
-  Widget dependencies() {
-    Get.lazyPut<HomeController>(() => HomeController());
-  }
-}
-```
+1. **`part` files cannot declare imports** — every import for the feature lives in the screen file.
+2. **Navigation is direct, not named.** There is no route table; push widgets with
+   `Get.to(() => const Screen())` / `Get.offAll(...)`.
 
----
+Controllers come in two tiers: global **data controllers** registered once in `main.dart`'s
+`_InitializedBinding`, and private **screen controllers** scoped to a single screen.
 
-## 🎛️ Key Patterns
-
-### Reactive State with `.obs`
-```dart
-final count = 0.obs;
-void increment() => count.value++;
-```
-
-```dart
-Obx(() => Text('Count: ${controller.count.value}'));
-```
-
-### Get.put() for Global Singletons
-```dart
-Get.put(AuthController());  // Available everywhere with Get.find()
-```
-
-### Get.lazyPut() for On-Demand Services
-```dart
-Get.lazyPut<ApiProvider>(() => ApiProvider());
-```
-
-### Route with Parameters
-```dart
-// Navigate with data
-Get.toNamed(AppRoutes.profile, arguments: {'userId': 123});
-
-// Access in controller
-final userId = Get.arguments['userId'];
-```
-
-### Auth Guard
-```dart
-GetMaterialApp(
-  initialRoute: AppRoutes.splash,
-  getPages: [
-    GetPage(
-      name: AppRoutes.home,
-      page: () => HomeView(),
-      binding: HomeBindings(),
-      middlewares: [AuthMiddleware()],
-    ),
-  ],
-)
-```
+> 📖 Full walkthrough with copy-ready file templates: **[docs/getx-mvc-template.md](docs/getx-mvc-template.md)**
 
 ---
 
 ## 🎨 Theming
 
-```dart
-// Light theme
-ThemeData lightTheme = ThemeData(
-  brightness: Brightness.light,
-  primaryColor: Color(0xFF6C63FF),
-  scaffoldBackgroundColor: Colors.white,
-);
+`AppTheme` owns the lifecycle; colors and text styles are `part` files of it, so they're private and
+widgets can only reach them through `Theme.of(context)`.
 
-// Dark theme
-ThemeData darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  primaryColor: Color(0xFF6C63FF),
-  scaffoldBackgroundColor: Color(0xFF121212),
-);
+```dart
+// Read
+final ColorScheme scheme = Theme.of(context).colorScheme;
+final TextStyle? title = Theme.of(context).textTheme.titleMedium;
+
+// Switch at runtime — persists AND applies
+await AppTheme.update(themeMode: ThemeMode.dark);
 ```
+
+Both schemes are full Material 3 `ColorScheme`s generated with the
+[Material Theme Builder](https://material-foundation.github.io/material-theme-builder/), defined in
+`lib/src/core/theme/colors.dart`. Edit `_lightScheme` and `_darkScheme` **in tandem**. Never
+hardcode a `Color` in a widget — add the role to the scheme instead, or it won't adapt to dark mode.
+
+Text goes through the `Custom*` widgets, which wire the text theme and color scheme together:
+
+| widget | default | `.L` | `.S` |
+|---|---|---|---|
+| `CustomTextDisplay` | `displayMedium` | `displayLarge` | `displaySmall` |
+| `CustomTextHeading` | `headlineMedium` | `headlineLarge` | `headlineSmall` |
+| `CustomTextTitle` | `titleMedium` | `titleLarge` | `titleSmall` |
+| `CustomTextBody` | `bodyMedium` | `bodyLarge` | `bodySmall` |
+| `CustomTextLabel` | `labelMedium` | `labelLarge` | `labelSmall` |
+
+```dart
+CustomTextTitle.L(text: TextEnum.login.tr, isBold: true)
+CustomTextBody.S(text: subtitle, maxLine: 2, onPrimary: true)
+```
+
+---
+
+## 🌍 Localization
+
+Strings are enum values rather than map keys, so they're autocompleted and typo-proof.
+
+```dart
+// lib/src/core/localization/string_enum.dart
+enum TextEnum {
+  login(en: 'Login', bn: 'লগইন'),
+  email(en: 'Email', bn: 'ইমেল'),
+}
+```
+
+```dart
+Text(TextEnum.login.tr)
+await AppTranslations.update(locale: const Locale('bn'));
+```
+
+Only `en` is required — a missing `bn` falls back to English rather than breaking the build. Adding
+a language means extending `supportedLocales`, the `keys` map, and `TextEnum`.
+
+---
+
+## 🌐 Networking
+
+Extend `HttpRepository` to inherit a configured client and the shared error handler.
+
+```dart
+class _ProfileRepository extends HttpRepository {
+  Future<UserModel?> load() async {
+    UserModel? result;
+
+    await errorHandler.errorHandler(
+      function: () async {
+        final dio.Response<Map<String, dynamic>> response =
+            await httpClient.get('user/me');
+
+        if (response.statusCode != 200 || response.data == null) {
+          throw response;
+        }
+
+        result = UserModel.fromMap(response.data!);
+      },
+    );
+
+    return result;
+  }
+}
+```
+
+The handler maps `DioException`s, timeouts, parse failures, and thrown responses onto
+`HTTPErrorEnum`, shows an error snackbar, logs the failure, and clears the session on `401`.
+Repository methods return `null` on failure — callers check for `null` rather than catching.
+
+The base URL, bearer token, timeouts, and logging are all applied automatically. Don't construct
+`Dio` yourself.
+
+---
+
+## 🧪 Debug tooling
+
+Everything here compiles out of release builds:
+
+- **`DevScaffold`** — wrap a screen's `Scaffold`; adds a drawer to switch locale, switch theme, and
+  log out
+- **`DevAutoFillButton`** — numbered buttons that fill forms from a controller's `devFunctions`
+- **`devPrint(...)`** — colorized logger that pretty-prints JSON (use instead of `print`)
+- **`DevicePreview`** — active whenever not in release
+
+---
+
+## 📚 Documentation
+
+| document | purpose |
+|---|---|
+| [docs/getx-mvc-template.md](docs/getx-mvc-template.md) | How to add screens, API calls, strings, and styling |
+| [docs/architecture-deep-dive.md](docs/architecture-deep-dive.md) | How every subsystem works, plus measured behavior and known defects |
+| [CLAUDE.md](CLAUDE.md) | Orientation for AI coding agents |
+
+---
+
+## 🚧 Project status
+
+This is a working starter, not a hardened framework. Before shipping on top of it, be aware:
+
+- The authentication repository still posts **hardcoded credentials to a mock endpoint** — wire it
+  to your real API (`// TODO` markers in `screen_controllers/authentication/repository.dart`)
+- Cold start carries roughly **6 seconds of scaffolding `Future.delayed`** in the splash chain
+- There is **no test suite**, and the `part`-file privacy pattern means feature classes can't be
+  imported by tests as written
+- A handful of theme and localization gaps are catalogued in
+  [the deep dive](docs/architecture-deep-dive.md#12-known-defects)
 
 ---
 
