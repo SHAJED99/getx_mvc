@@ -19,7 +19,7 @@ dependencies:
   flutter_dotenv: ^5.2.1
   get: ^4.7.2
   flutter_screenutil: ^5.9.3
-  google_fonts: ^6.2.1
+  google_fonts: '>=8.0.0 <9.0.0'
   get_storage: ^2.1.1
   tuple: ^2.0.2
   device_preview: ^1.2.0
