@@ -35,6 +35,13 @@ analyzer:
     #! Ignore generated files
     - '**/*.g.dart'
     - '**/*.freezed.dart'
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
 
   #! Custom settings
   strong-mode:
