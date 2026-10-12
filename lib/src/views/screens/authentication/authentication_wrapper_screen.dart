@@ -122,7 +122,7 @@ class _AuthenticationWrapperScreenState
                             _Heading(TextEnum.email.tr),
                             OnTextInputWidgetUserField(
                               key: GlobalKey(),
-                              textEditingController: _controller.emailC,
+                              controller: _controller.emailC,
                               showDetailError: true,
                               keyboardType: TextInputType.emailAddress,
                               hintText: TextEnum.enterYourEmail.tr,
@@ -150,8 +150,7 @@ class _AuthenticationWrapperScreenState
                                           _Heading(TextEnum.password.tr),
                                           OnTextInputWidgetUserField(
                                             key: GlobalKey(),
-                                            textEditingController:
-                                                _controller.passwordC,
+                                            controller: _controller.passwordC,
                                             obscureText: true,
                                             showDetailError: true,
                                             keyboardType:
