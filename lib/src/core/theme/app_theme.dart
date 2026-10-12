@@ -108,16 +108,17 @@ class AppTheme {
   }
 
   /// Get App theme
-  static ThemeData theme(
-    BuildContext context, {
+  static ThemeData theme({
     Brightness brightness = Brightness.light,
   }) {
+    final ColorScheme colorScheme = brightness == Brightness.light
+        ? AppColors._lightScheme
+        : AppColors._darkScheme;
+
     return ThemeData(
-      textTheme: AppTextStyles._textTheme(context),
+      textTheme: AppTextStyles._textTheme(colorScheme),
       buttonTheme: ButtonThemeData(height: defaultButtonHeight),
-      colorScheme: brightness == Brightness.light
-          ? AppColors._lightScheme
-          : AppColors._darkScheme,
+      colorScheme: colorScheme,
     );
   }
 }

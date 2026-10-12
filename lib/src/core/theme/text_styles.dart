@@ -3,10 +3,22 @@ part of 'app_theme.dart';
 /// App theme text style. Text style will be added there.
 /// Use
 class AppTextStyles {
-  static TextTheme _textTheme(BuildContext context) {
-    TextTheme baseTextTheme = Theme.of(context).textTheme.apply(
-          fontSizeFactor: 1.sp,
-        );
+  /// Builds the text theme for [colorScheme].
+  ///
+  /// The base is taken from [Typography] rather than `Theme.of(context)`,
+  /// because this runs while the theme is still being constructed — the only
+  /// ancestor theme available there is the light fallback, whose text styles
+  /// carry baked-in near-black colors that would then override the dark
+  /// theme's own typography.
+  static TextTheme _textTheme(ColorScheme colorScheme) {
+    final Typography typography = Typography.material2021(
+      colorScheme: colorScheme,
+    );
+
+    TextTheme baseTextTheme = (colorScheme.brightness == Brightness.dark
+            ? typography.white
+            : typography.black)
+        .apply(fontSizeFactor: 1.sp);
 
     TextTheme bodyTextTheme = GoogleFonts.poppinsTextTheme(baseTextTheme);
     TextTheme displayTextTheme = GoogleFonts.poppinsTextTheme(baseTextTheme);

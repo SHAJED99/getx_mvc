@@ -50,9 +50,9 @@ class _MyApp extends StatelessWidget {
       minTextAdapt: true,
       useInheritedMediaQuery: true,
       splitScreenMode: true,
-      builder: (BuildContext context, Widget? child) => GetMaterialApp(
-        theme: AppTheme.theme(context),
-        darkTheme: AppTheme.theme(context, brightness: Brightness.dark),
+      builder: (BuildContext _, Widget? child) => GetMaterialApp(
+        theme: AppTheme.theme(),
+        darkTheme: AppTheme.theme(brightness: Brightness.dark),
         themeMode: themeMode,
         locale: locale,
         fallbackLocale: AppTranslations.supportedLocales.first,
