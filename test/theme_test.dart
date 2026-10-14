@@ -128,4 +128,89 @@ void main() {
       expect(lightColor, isNot(darkColor));
     });
   });
+
+  group('AppColors scheme integrity', () {
+    testWidgets('container roles invert between light and dark', (
+      WidgetTester tester,
+    ) async {
+      // Six container roles were byte-identical across both schemes, so a
+      // container surface rendered as the same mid-tone in dark mode, and the
+      // paired on-color stayed dark-on-dark.
+      final ColorScheme light =
+          (await _resolveTheme(tester, ThemeMode.light)).colorScheme;
+      final ColorScheme dark =
+          (await _resolveTheme(tester, ThemeMode.dark)).colorScheme;
+
+      final Map<String, (Color, Color)> pairs = <String, (Color, Color)>{
+        'primaryContainer': (light.primaryContainer, dark.primaryContainer),
+        'onPrimaryContainer': (
+          light.onPrimaryContainer,
+          dark.onPrimaryContainer,
+        ),
+        'secondaryContainer': (
+          light.secondaryContainer,
+          dark.secondaryContainer,
+        ),
+        'onSecondaryContainer': (
+          light.onSecondaryContainer,
+          dark.onSecondaryContainer,
+        ),
+        'errorContainer': (light.errorContainer, dark.errorContainer),
+        'onErrorContainer': (light.onErrorContainer, dark.onErrorContainer),
+      };
+
+      for (final MapEntry<String, (Color, Color)> p in pairs.entries) {
+        expect(
+          p.value.$1,
+          isNot(p.value.$2),
+          reason: '${p.key} is identical in both schemes, so it cannot adapt',
+        );
+      }
+    });
+
+    testWidgets('every on-color pair meets WCAG AA in both schemes', (
+      WidgetTester tester,
+    ) async {
+      for (final (String label, ThemeMode mode) in <(String, ThemeMode)>[
+        ('light', ThemeMode.light),
+        ('dark', ThemeMode.dark),
+      ]) {
+        final ColorScheme s = (await _resolveTheme(tester, mode)).colorScheme;
+
+        final Map<String, (Color, Color)> pairs = <String, (Color, Color)>{
+          'primary': (s.primary, s.onPrimary),
+          'primaryContainer': (s.primaryContainer, s.onPrimaryContainer),
+          'secondary': (s.secondary, s.onSecondary),
+          'secondaryContainer': (s.secondaryContainer, s.onSecondaryContainer),
+          'tertiary': (s.tertiary, s.onTertiary),
+          'tertiaryContainer': (s.tertiaryContainer, s.onTertiaryContainer),
+          'error': (s.error, s.onError),
+          'errorContainer': (s.errorContainer, s.onErrorContainer),
+          'surface': (s.surface, s.onSurface),
+        };
+
+        for (final MapEntry<String, (Color, Color)> p in pairs.entries) {
+          expect(
+            _contrastRatio(p.value.$1, p.value.$2),
+            greaterThanOrEqualTo(4.5),
+            reason: '${p.key}/on${p.key} fails AA in the $label scheme',
+          );
+        }
+      }
+    });
+
+    testWidgets('dark accent roles match their FixedDim tones', (
+      WidgetTester tester,
+    ) async {
+      // The palette's own convention, which held for primary and secondary but
+      // had been broken for tertiary (set to pure white, losing the accent).
+      final ColorScheme dark =
+          (await _resolveTheme(tester, ThemeMode.dark)).colorScheme;
+
+      expect(dark.primary, dark.primaryFixedDim, reason: 'primary');
+      expect(dark.secondary, dark.secondaryFixedDim, reason: 'secondary');
+      expect(dark.tertiary, dark.tertiaryFixedDim, reason: 'tertiary');
+    });
+  });
+
 }

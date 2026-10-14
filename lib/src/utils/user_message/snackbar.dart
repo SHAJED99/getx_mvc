@@ -73,11 +73,11 @@ Future<void> showSnackBar({
     }
     if (type == SnackBarType.info) {
       iconData = Icons.info_rounded;
-      iconColor = colorScheme.primaryContainer;
+      iconColor = colorScheme.secondary;
     }
     if (type == SnackBarType.warning) {
       iconData = Icons.warning_rounded;
-      iconColor = colorScheme.onErrorContainer;
+      iconColor = colorScheme.tertiary;
     }
   }
 

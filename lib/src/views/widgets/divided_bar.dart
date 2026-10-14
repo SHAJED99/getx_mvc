@@ -105,7 +105,7 @@ class CustomDividedBar extends StatelessWidget {
       width: direction == Axis.vertical ? defaultPadding / 16 : size,
       height: direction == Axis.horizontal ? defaultPadding / 16 : size,
       decoration: BoxDecoration(
-        color: color ?? colorScheme.onPrimaryContainer.withAlpha(127),
+        color: color ?? colorScheme.outlineVariant,
         borderRadius: BorderRadius.circular(defaultPadding / 2),
       ),
     );
