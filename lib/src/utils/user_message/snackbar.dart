@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../../../components.dart';
+import '../dev_functions/dev_print.dart';
 
 /// Displays a snackbar with the specified parameters.
 ///
@@ -50,86 +51,128 @@ Future<void> showSnackBar({
   Color? backgroundColor,
   SnackBarType? type,
 }) async {
-  final Completer<void> c = completer ?? Completer<void>();
-  if (Get.isSnackbarOpen) Get.closeAllSnackbars();
+  Future<void> showSnackBar_() async {
+    final Completer<void> c = completer ?? Completer<void>();
 
-  final ThemeData theme = Get.theme;
-  final ColorScheme colorScheme = theme.colorScheme;
-  final TextTheme textTheme = theme.textTheme;
-  final Color textColor = colorScheme.onSurface;
-  Color containerColor = colorScheme.surface.withAlpha(200);
-
-  IconData? iconData;
-  Color? iconColor;
-
-  if (type != null) {
-    if (type == SnackBarType.success) {
-      iconData = Icons.check_circle_rounded;
-      iconColor = colorScheme.primary;
-    }
-    if (type == SnackBarType.error) {
-      iconData = Icons.cancel_rounded;
-      iconColor = colorScheme.error;
-    }
-    if (type == SnackBarType.info) {
-      iconData = Icons.info_rounded;
-      iconColor = colorScheme.secondary;
-    }
-    if (type == SnackBarType.warning) {
-      iconData = Icons.warning_rounded;
-      iconColor = colorScheme.tertiary;
-    }
-  }
-
-  if (iconColor != null) {
-    containerColor = _blendColors(containerColor, iconColor, 0.3);
-  }
-
-  Get.snackbar(
-    title,
-    message,
-    messageText: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          message,
-          style: textTheme.bodyMedium?.copyWith(
-            color: messageColor ?? textColor,
-          ),
-        ),
-        if (child != null)
-          Padding(
-            padding: EdgeInsets.only(top: defaultPadding / 4),
-            child: child,
-          ),
-      ],
-    ),
-    icon: icon ??
-        Icon(
-          iconData,
-          color: iconColor ?? textColor,
-          size: defaultPadding,
-        ),
-    borderRadius: defaultPadding / 2,
-    padding: padding ?? EdgeInsets.all(defaultPadding),
-    margin: margin ?? EdgeInsets.all(defaultPadding),
-    snackPosition: snackPosition,
-    snackbarStatus: (SnackbarStatus? status) async {
-      if (snackbarStatus != null) snackbarStatus(status);
-      if (status == SnackbarStatus.CLOSED && !c.isCompleted) {
-        c.complete();
+    if (Get.isSnackbarOpen) {
+      // The await matters: closeCurrentSnackbar is async, and an un-awaited
+      // failure inside GetX bypasses every enclosing catch and surfaces as an
+      // unhandled zone error instead.
+      //
+      // It genuinely does fail. SnackbarController holds a `late final`
+      // AnimationController that is only assigned once a snackbar renders, so
+      // closing one that was queued but never shown throws a
+      // LateInitializationError. Contain it here rather than let a stale
+      // snackbar suppress the message we were asked to display.
+      try {
+        await Get.closeCurrentSnackbar();
+      } catch (e) {
+        devPrint(
+          'Unable to close the previous snackbar. Error: $e',
+          color: DevPrintColorEnum.yellow,
+          heading: 'Snackbar',
+        );
       }
-    },
-    colorText: titleColor ?? textColor,
-    maxWidth: defaultMaxBoxWidth,
-    backgroundColor: backgroundColor ?? containerColor,
-    mainButton: mainButton,
-    duration: duration,
-    animationDuration: animationDuration,
-    barBlur: 2,
-  );
+    }
 
-  await c.future;
+    final ThemeData theme = Get.theme;
+    final ColorScheme colorScheme = theme.colorScheme;
+    final TextTheme textTheme = theme.textTheme;
+    final Color textColor = colorScheme.onSurface;
+    Color containerColor = colorScheme.surface.withAlpha(200);
+
+    IconData? iconData;
+    Color? iconColor;
+
+    if (type != null) {
+      if (type == SnackBarType.success) {
+        iconData = Icons.check_circle_rounded;
+        iconColor = colorScheme.primary;
+      }
+      if (type == SnackBarType.error) {
+        iconData = Icons.cancel_rounded;
+        iconColor = colorScheme.error;
+      }
+      if (type == SnackBarType.info) {
+        iconData = Icons.info_rounded;
+        iconColor = colorScheme.secondary;
+      }
+      if (type == SnackBarType.warning) {
+        iconData = Icons.warning_rounded;
+        iconColor = colorScheme.tertiary;
+      }
+    }
+
+    if (iconColor != null) {
+      containerColor = _blendColors(containerColor, iconColor, 0.3);
+    }
+
+    Get.snackbar(
+      title,
+      message,
+      messageText: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            message,
+            style: textTheme.bodyMedium?.copyWith(
+              color: messageColor ?? textColor,
+            ),
+          ),
+          if (child != null)
+            Padding(
+              padding: EdgeInsets.only(top: defaultPadding / 4),
+              child: child,
+            ),
+        ],
+      ),
+      icon: icon ??
+          Icon(
+            iconData,
+            color: iconColor ?? textColor,
+            size: defaultPadding,
+          ),
+      borderRadius: defaultPadding / 2,
+      padding: padding ?? EdgeInsets.all(defaultPadding),
+      margin: margin ?? EdgeInsets.all(defaultPadding),
+      snackPosition: snackPosition,
+      snackbarStatus: (SnackbarStatus? status) async {
+        if (snackbarStatus != null) snackbarStatus(status);
+        if (status == SnackbarStatus.CLOSED && !c.isCompleted) {
+          c.complete();
+        }
+      },
+      colorText: titleColor ?? textColor,
+      maxWidth: defaultMaxBoxWidth,
+      backgroundColor: backgroundColor ?? containerColor,
+      mainButton: mainButton,
+      duration: duration,
+      animationDuration: animationDuration,
+      barBlur: 2,
+    );
+
+    // The completer only fires on SnackbarStatus.CLOSED. If GetX never reports
+    // it, callers such as _HttpErrorHandler would stay suspended and leave the
+    // triggering button spinning, so cap the wait.
+    await c.future.timeout(
+      duration + const Duration(seconds: 5),
+      onTimeout: () => devPrint(
+        'Snackbar never reported CLOSED; continuing without it.',
+        color: DevPrintColorEnum.yellow,
+        heading: 'Snackbar',
+      ),
+    );
+  }
+
+  try {
+    await showSnackBar_();
+  } catch (e) {
+    devPrint(
+      'Unable to show Snackbar. Error: $e',
+      color: DevPrintColorEnum.red,
+      heading: 'Snackbar',
+    );
+  }
 }
 
 /// Displays a toast message.
